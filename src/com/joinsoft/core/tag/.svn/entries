@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/core/tag
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-08-13T02:09:09.842779Z
+1579
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+DicTag.java
+file
+
+
+
+
+2018-09-05T02:33:19.749000Z
+04c3a35bf684eb40898a4ddd90124419
+2018-08-13T02:09:09.842779Z
+1579
+scy
+
+DicTagShow.java
+file
+
+
+
+
+2018-09-05T02:33:19.756000Z
+4852cb6fb65164f84e2bf9c22f900a89
+2018-08-13T02:09:09.842779Z
+1579
+scy
+

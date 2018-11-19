@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<!-- 标签版本 -->
+	<tlib-version>1.0</tlib-version>
+	<!-- 标签依赖jsp版本 -->
+	<jsp-version>1.2</jsp-version>
+	<!-- 标签默认前缀 -->
+	<short-name>dic</short-name>
+	
+	<!-- 字典下拉显示 -->
+	<tag>
+		<!-- 标签名称 -->
+		<name>dic</name>
+		<!-- 标签处理器类 -->
+		<tag-class>com.joinsoft.core.tag.DicTag</tag-class>
+		<!-- 标签主体内容
+			 empty:没有内容
+			 jsp:可以包含jsp内容
+			 tagdependent:表示标签中的内容有标签自己去处理 -->
+		<body-content>JSP</body-content>
+		<attribute>
+			<!-- 标签的参数name -->
+			<name>dictno</name>
+			<!-- 参数是否必须，true表示必须，false反之 -->
+			<required>true</required>
+			<!-- 是否支持表达式 -->
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 参数类型 -->
+			<type>java.lang.String</type>
+			<!-- 参数描述 -->
+			<description>字典类别</description>
+		</attribute>
+		<attribute>
+			<!-- 标签的参数name -->
+			<name>dictlabel</name>
+			<!-- 参数是否必须，true表示必须，false反之 -->
+			<required>false</required>
+			<!-- 是否支持表达式 -->
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 参数类型 -->
+			<type>java.lang.String</type>
+			<!-- 参数描述 -->
+			<description>字典类别明细dicvalue</description>
+		</attribute>
+		<!-- <dynamic-attributes>true</dynamic-attributes> -->
+	</tag>
+	
+	<!-- 字典单个显示 -->
+	<tag>
+		<!-- 标签名称 -->
+		<name>dicshow</name>
+		<!-- 标签处理器类 -->
+		<tag-class>com.joinsoft.core.tag.DicTagShow</tag-class>
+		<!-- 标签主体内容
+			 empty:没有内容
+			 jsp:可以包含jsp内容
+			 tagdependent:表示标签中的内容有标签自己去处理 -->
+		<body-content>JSP</body-content>
+		<attribute>
+			<!-- 标签的参数name -->
+			<name>dictno</name>
+			<!-- 参数是否必须，true表示必须，false反之 -->
+			<required>true</required>
+			<!-- 是否支持表达式 -->
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 参数类型 -->
+			<type>java.lang.String</type>
+			<!-- 参数描述 -->
+			<description>字典类别</description>
+		</attribute>
+		<attribute>
+			<!-- 标签的参数name -->
+			<name>dictlabel</name>
+			<!-- 参数是否必须，true表示必须，false反之 -->
+			<required>true</required>
+			<!-- 是否支持表达式 -->
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 参数类型 -->
+			<type>java.lang.String</type>
+			<!-- 参数描述 -->
+			<description>字典类别明细dicvalue</description>
+		</attribute>
+	</tag>
+</taglib>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.param.dao.SysParamMapper">
+
+	<!--查询-->
+	<select id="getSysParam" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,zonecode,paramno,paramdesc,paramvalue,ismodify,createby,createtime,updateby,updatetime,remark,delflag
+		    FROM SYS_PARAM
+		    WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				 and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!--查询-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheParam">
+		SELECT 
+		       sid,paramno,paramvalue 
+		    FROM SYS_PARAM
+		    WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				 and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			 <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				 and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysParam" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		      sid,
+		      zonecode,
+		      paramno,
+		      paramdesc,
+		      paramvalue,
+		      case ismodify 
+		      when '0' then '是'
+		      when '1' then '否' end as ismodifyname,
+		      ismodify,
+		      createby,
+		      createtime,
+		      updateby,
+		      updatetime,
+		      remark,
+		      delflag
+         FROM SYS_PARAM 
+         WHERE 1=1
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+             and sid = #{sid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+             and delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysParam" parameterType="SysParam">
+        INSERT INTO SYS_PARAM
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramno)">
+				paramno,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramdesc)">
+				paramdesc,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramvalue)">
+				paramvalue,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				ismodify,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramno)">
+				#{paramno,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramdesc)">
+				#{paramdesc,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramvalue)">
+				#{paramvalue,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				#{ismodify,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				#{delflag,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysParam" parameterType="SysParam">
+        UPDATE SYS_PARAM SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid = #{sid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramno)">
+				paramno = #{paramno,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramdesc)">
+				paramdesc = #{paramdesc,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(paramvalue)">
+				paramvalue = #{paramvalue,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				ismodify = #{ismodify,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby = #{createby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime = #{createtime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE sid = #{sid,jdbcType=VARCHAR}
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysParam" parameterType="java.lang.String">
+        DELETE FROM SYS_PARAM WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysParam">
+      DELETE FROM SYS_PARAM WHERE 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysParam" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_PARAM 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+</mapper>
+

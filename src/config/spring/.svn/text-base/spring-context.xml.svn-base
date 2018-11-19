@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+    xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:websocket="http://www.springframework.org/schema/websocket" 
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd         
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd         
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd         
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd         
+    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+    http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd 
+    http://www.springframework.org/schema/task   
+    http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+    <description>Spring Public Config</description>
+
+    <!-- 定义受环境影响易变的变量 -->
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath*:config/jdbc/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    
+    
+    <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
+    <context:component-scan base-package="com.joinsoft">
+        <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+    
+
+    <!-- 数据源配置,使用数据库连接池 -->
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxConnectionsPerPartition" value="30" />
+        <property name="minConnectionsPerPartition" value="10" />
+        <property name="partitionCount" value="3" />
+        <property name="acquireIncrement" value="5" />
+        <property name="statementsCacheSize" value="100" />
+    </bean>
+
+    <!-- 定义事务 -->
+    <bean
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="myibatistransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+ 	
+    <tx:advice id="txAdvice" transaction-manager="myibatistransactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="imp*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="merge*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="put*" propagation="REQUIRED" />
+            <tx:method name="use*" propagation="REQUIRED" />
+            <tx:method name="cancel*" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 第一个*匹配方法的返回类型 第二*..匹配任何包以及其子包 第三个*匹配以相应表达式结尾的类或接口 第四个.*(..)匹配带任何参数的方法 -->
+     <aop:config expose-proxy="true">
+        <aop:pointcut expression="execution(* com.joinsoft..service..*.*(..))" id="txPointcut" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+    </aop:config> 
+    
+    <!-- 定义任务 
+ 	<task:annotation-driven /> 
+ 	<task:scheduled-tasks>
+        <task:scheduled ref="scheduledTask" method="print" cron="0 30 23  * * ? " /> 
+    </task:scheduled-tasks>-->
+    
+    <!-- WebScoket Stomp config -->
+    <websocket:message-broker application-destination-prefix="/jsdp_notice">
+        <websocket:stomp-endpoint path="/getNoticeinfo" allowed-origins="*">
+            <websocket:sockjs />
+        </websocket:stomp-endpoint>
+        <!-- <websocket:stomp-broker-relay prefix="/topic,/queue" relay-host="192.168.0.147" relay-port="61613"/> -->
+        <websocket:simple-broker prefix="/topic, /queue" />
+        <websocket:client-inbound-channel>
+            <websocket:executor core-pool-size="100" max-pool-size="200" keep-alive-seconds="600"/>
+            <websocket:interceptors>
+                <ref bean="noticeChannelInterceptor"/>
+            </websocket:interceptors>
+        </websocket:client-inbound-channel>
+    </websocket:message-broker>
+    <bean id="noticeChannelInterceptor" class="com.joinsoft.core.filter.NoticeChannelInterceptor"/>
+    
+    <import resource="classpath:config/spring/spring-mybatis.xml" />
+    <!-- memcached缓存 java 客户端连接方式 -->
+    <!-- <import resource="classpath:config/spring/spring-memcache.xml" /> -->
+    <!-- memcached缓存 xmemcached 客户端连接方式 -->
+    <import resource="classpath:config/spring/spring-xmemcache.xml" />
+    <!-- dubbo 暴露服务bean -->
+    <!-- 
+     -->
+    <import resource="classpath:config/spring/spring-dubbo-provider.xml" />
+    <!-- <import resource="classpath:config/spring/spring-global.xml" /> -->
+    <!-- <import resource="classpath:config/spring/dubbo-demo-provider.xml" /> 
+    <import resource="classpath:config/spring/dubbo-demo-consumer.xml" />  -->
+    
+    <!-- 该类放到最后 -->
+    <bean id="springContextUtil" class="com.joinsoft.core.spring.SpringContextUtil" lazy-init="false"></bean>
+    
+    <!-- <bean id="simpMessagingTemplate" class="org.springframework.messaging.simp.SimpMessagingTemplate"></bean> -->
+    
+</beans>

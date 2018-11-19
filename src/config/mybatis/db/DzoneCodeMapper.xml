@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.joinsoft.module.system.zoneCode.dao.DzoneCodeMapper">
+	<!--分页查询 -->
+	<select id="pageZoneCode" parameterType="map" resultType="java.util.HashMap">
+		SELECT
+		sid,zonecode,zonename,zonetype,createby,createtime,updateby,updatetime,remark,delflag,orgno,
+		(select dictvalue from sys_dict_content where dictno = '92' and dictlabel = sys_area.zonetype and state= '1') as typename,pid
+		FROM sys_area
+		<where>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+			ORDER BY ${order}
+		</if>
+	</select>
+	<!--插入 -->
+	<insert id="insertZoneCode" parameterType="DzoneCode">
+		INSERT INTO sys_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonename)">
+				zonename,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonetype)">
+				zonetype,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				orgno,
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonename)">
+				#{zonename,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonetype)">
+				#{zonetype,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				#{delflag,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				#{orgno,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<!--查询 -->
+	<select id="getZoneCode" parameterType="map" resultType="java.util.HashMap">
+		SELECT
+		sid,zonecode,zonename,zonetype,createby,createtime,updateby,updatetime,remark,delflag,pid,orgno
+		FROM sys_area
+		<where>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				and zonecode = #{zonecode,jdbcType=VARCHAR}
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+			ORDER BY ${order}
+		</if>
+	</select>
+	<!--动态更新 -->
+	<update id="updateZoneCode" parameterType="DzoneCode">
+		UPDATE sys_area SET
+		<trim suffixOverrides=",">
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonename)">
+				zonename = #{zonename,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonetype)">
+				zonetype = #{zonetype,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby = #{createby,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime = #{createtime,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} ,
+			</if>
+			<if
+				test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid = #{pid,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		WHERE
+		sid = #{sid,jdbcType=VARCHAR}
+	</update>
+	<!--分页-->
+	<select id="queryListDzoneCode" parameterType="map"  resultType="DzoneCode">
+        SELECT 
+		          sid,pid,zonecode,zonename,zonetype
+         FROM sys_area 
+         WHERE 1=1 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+</mapper>

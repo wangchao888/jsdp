@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.notice.dao.SysNoticeinfoMapper">
+
+	<!--查询-->
+	<select id="getSysNoticeinfo" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       info.sid,info.orgid,info.userid,info.ntctitle,info.describe,info.state,info.ntctype,info.usertype,info.releasedate,info.rectime,info.remark,
+		       ruser.username
+		    FROM SYS_NOTICEINFO info
+		    inner join sys_rbac_user ruser on ruser.sid = info.userid
+		    <where>
+		    	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				info.sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    </where>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysNoticeinfo" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,orgid,userid,ntctitle,describe,state,ntctype,usertype,releasedate,rectime,remark
+         FROM SYS_NOTICEINFO 
+         <where>
+         		state in ('1','0')	
+         	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctitle)">
+	             and ntctitle like '%'||#{ntctitle,jdbcType=VARCHAR}||'%'
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(releasedate)">
+	        	 and releasedate like '%'||#{releasedate,jdbcType=VARCHAR}||'%'
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+	             and userid = #{userid,jdbcType=VARCHAR}
+	        </if>
+         </where>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysNoticeinfo" parameterType="SysNoticeinfo">
+        INSERT INTO SYS_NOTICEINFO
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				orgid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctitle)">
+				ntctitle,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(describe)">
+				describe,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctype)">
+				ntctype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				usertype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(releasedate)">
+				releasedate,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rectime)">
+				rectime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				#{orgid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctitle)">
+				#{ntctitle,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(describe)">
+				#{describe,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				#{state,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctype)">
+				#{ntctype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				#{usertype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(releasedate)">
+				#{releasedate,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rectime)">
+				#{rectime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysNoticeinfo" parameterType="SysNoticeinfo">
+        UPDATE SYS_NOTICEINFO SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				orgid = #{orgid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid = #{userid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctitle)">
+				ntctitle = #{ntctitle,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(describe)">
+				describe = #{describe,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state = #{state,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctype)">
+				ntctype = #{ntctype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				usertype = #{usertype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(releasedate)">
+				releasedate = #{releasedate,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rectime)">
+				rectime = #{rectime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysNoticeinfo" parameterType="java.lang.String">
+        DELETE FROM SYS_NOTICEINFO WHERE sid = #{id,jdbcType=VARCHAR}  
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysNoticeinfo">
+      DELETE FROM SYS_NOTICEINFO WHERE 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysNoticeinfo" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_NOTICEINFO 
+        where user
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    <select id="countInfo" parameterType="map" resultType="long">
+    	SELECT  count(*)
+		    FROM SYS_NOTICEINFO info
+        	inner join sys_noticeDetail ail on ail.noticeId = info.sid
+       	 	where info.state = '1' and ail.userid = #{userid,jdbcType=VARCHAR}  
+       	 	and ail.viewFlag = '0'
+    </select>
+    <!--根据用户获取消息查询-->
+	<select id="getUserMessage" parameterType="map" resultType="java.util.HashMap">
+		SELECT  info.sid,info.orgid,info.userid,info.ntctitle,info.describe,info.state,info.ntctype,info.usertype,info.releasedate,info.rectime,info.remark,ruser.icopath
+		    FROM SYS_NOTICEINFO info
+        	inner join sys_noticeDetail ail on ail.noticeId = info.sid
+        	inner join sys_rbac_user ruser on ruser.sid = info.userid
+       	 	where info.state = '1' and ail.viewFlag = '0' and ail.userid = #{userid,jdbcType=VARCHAR}  
+				ORDER BY releaseDate desc,info.sid 
+	</select>
+	<select id="pageGetUserMessage" parameterType="map" resultType="java.util.HashMap">
+		SELECT  info.sid,info.orgid,info.userid,info.ntctitle,info.describe,info.state,info.ntctype,info.usertype,info.releasedate,info.rectime,info.remark,ruser.icopath,
+			ail.viewFlag,ail.viewTime,ruser.username,ruser.sid as ruserid
+		    FROM SYS_NOTICEINFO info
+        	inner join sys_noticeDetail ail on ail.noticeId = info.sid
+        	inner join sys_rbac_user ruser on ruser.sid = ail.userid
+       	 	where info.state = '1' and ail.userid = #{userid,jdbcType=VARCHAR}  
+       	 	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewflag)">
+	             and ail.viewflag = #{viewflag,jdbcType=VARCHAR}
+	        </if>
+       	 	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ntctitle)">
+	             and info.ntctitle like '%'||#{ntctitle,jdbcType=VARCHAR}||'%'
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(releasedate)">
+	        	 and info.releasedate like '%'||#{releasedate,jdbcType=VARCHAR}||'%'
+	        </if>
+				ORDER BY releaseDate desc,info.sid 
+	</select>
+</mapper>
+

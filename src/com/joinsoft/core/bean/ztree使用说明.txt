@@ -1,0 +1,21 @@
+1、五个属性 id、pid、name、other、remark
+其中 id pid name 分别对应 id ，父节点id，名称
+other与remark作为扩展使用在页面中可通过treeNode.other，treeNode.remark获取
+页面中加载	
+	<link rel="stylesheet" href="${ctx}/static/js/tree/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/static/js/tree/css/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="${ctx}/static/js/jquery.js"></script>
+	<script type="text/javascript" src="${ctx}/static/js/tree/js/jquery.ztree.core-3.5.js"></script>
+
+js代码中制定显示的节点名称
+	var setting = {data: {
+			simpleData: {
+				enable:true,
+				idKey: "id",
+				pIdKey: "pid",
+				rootPId: ""
+			}}
+			
+		};	
+	var  zNodes =${treelist};
+	${treelist} 为Controller中放入到Model中的变量

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.user.dao.SysRbacUserlogMapper">
+
+	<!--查询-->
+	<select id="getSysRbacUserlog" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,userid,logtype,opertime,operip,opermac,passwd,result,remark
+		    FROM SYS_RBAC_USERLOG
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE 1=1  ${where}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysRbacUserlog" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          USERLOG.sid,USERLOG.userid,USERLOG.logtype,USERLOG.opertime,USERLOG.operip,USERLOG.opermac,
+		          USERLOG.passwd,USERLOG.result,USERLOG.remark,RBACUSER.loginname,RBACUSER.username
+         FROM SYS_RBAC_USERLOG USERLOG
+         LEFT JOIN SYS_RBAC_USER RBACUSER ON USERLOG.userid = RBACUSER.sid 
+        <where>
+          <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+            RBACUSER.loginname like '%'||#{loginname,jdbcType=VARCHAR}||'%'
+          </if>
+          <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+            RBACUSER.username like '%'||#{username,jdbcType=VARCHAR}||'%'
+          </if>
+        </where>
+        
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysRbacUserlog" parameterType="SysRbacUserlog">
+        INSERT INTO SYS_RBAC_USERLOG
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(logtype)">
+				logtype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opertime)">
+				opertime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(operip)">
+				operip,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opermac)">
+				opermac,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				passwd,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(result)">
+				result,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(logtype)">
+				#{logtype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opertime)">
+				#{opertime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(operip)">
+				#{operip,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opermac)">
+				#{opermac,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				#{passwd,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(result)">
+				#{result,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacUserlog" parameterType="SysRbacUserlog">
+        UPDATE SYS_RBAC_USERLOG SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid = #{userid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(logtype)">
+				logtype = #{logtype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opertime)">
+				opertime = #{opertime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(operip)">
+				operip = #{operip,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(opermac)">
+				opermac = #{opermac,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				passwd = #{passwd,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(result)">
+				result = #{result,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysRbacUserlog" parameterType="java.lang.String">
+        DELETE FROM SYS_RBAC_USERLOG WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacUserlog">
+      DELETE FROM SYS_RBAC_USERLOG WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacUserlog" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_USERLOG 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+</mapper>
+

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/svn7_hfmpmina/!svn/ver/1730/jsdp/src/com/joinsoft/dubbo/service
+END
+ICommonService.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/svn7_hfmpmina/!svn/ver/798/jsdp/src/com/joinsoft/dubbo/service/ICommonService.java
+END
+IOrgService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/1090/jsdp/src/com/joinsoft/dubbo/service/IOrgService.java
+END
+ICorpinfoService.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn7_hfmpmina/!svn/ver/1730/jsdp/src/com/joinsoft/dubbo/service/ICorpinfoService.java
+END
+IUserService.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/svn7_hfmpmina/!svn/ver/1730/jsdp/src/com/joinsoft/dubbo/service/IUserService.java
+END

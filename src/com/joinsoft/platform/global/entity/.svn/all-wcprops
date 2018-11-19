@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/svn7_hfmpmina/!svn/ver/1168/jsdp/src/com/joinsoft/platform/global/entity
+END
+CacheRbacRole.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn7_hfmpmina/!svn/ver/317/jsdp/src/com/joinsoft/platform/global/entity/CacheRbacRole.java
+END
+CacheDicType.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn7_hfmpmina/!svn/ver/317/jsdp/src/com/joinsoft/platform/global/entity/CacheDicType.java
+END
+CacheDictContent.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/svn7_hfmpmina/!svn/ver/317/jsdp/src/com/joinsoft/platform/global/entity/CacheDictContent.java
+END
+CacheUserBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/svn7_hfmpmina/!svn/ver/1115/jsdp/src/com/joinsoft/platform/global/entity/CacheUserBean.java
+END
+CacheOrgArea.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn7_hfmpmina/!svn/ver/362/jsdp/src/com/joinsoft/platform/global/entity/CacheOrgArea.java
+END
+HfmpCorpUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn7_hfmpmina/!svn/ver/1168/jsdp/src/com/joinsoft/platform/global/entity/HfmpCorpUser.java
+END
+CacheArea.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/svn7_hfmpmina/!svn/ver/426/jsdp/src/com/joinsoft/platform/global/entity/CacheArea.java
+END
+CacheRbacApplication.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/svn7_hfmpmina/!svn/ver/439/jsdp/src/com/joinsoft/platform/global/entity/CacheRbacApplication.java
+END
+CacheRbacMenu.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn7_hfmpmina/!svn/ver/327/jsdp/src/com/joinsoft/platform/global/entity/CacheRbacMenu.java
+END
+CacheActorMenu.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/svn7_hfmpmina/!svn/ver/468/jsdp/src/com/joinsoft/platform/global/entity/CacheActorMenu.java
+END
+CacheAuth.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/svn7_hfmpmina/!svn/ver/1158/jsdp/src/com/joinsoft/platform/global/entity/CacheAuth.java
+END
+CacheRbacOrg.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn7_hfmpmina/!svn/ver/1158/jsdp/src/com/joinsoft/platform/global/entity/CacheRbacOrg.java
+END
+CacheParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/svn7_hfmpmina/!svn/ver/317/jsdp/src/com/joinsoft/platform/global/entity/CacheParam.java
+END
+CacheBldType.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn7_hfmpmina/!svn/ver/439/jsdp/src/com/joinsoft/platform/global/entity/CacheBldType.java
+END
+CacheRbacUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn7_hfmpmina/!svn/ver/929/jsdp/src/com/joinsoft/platform/global/entity/CacheRbacUser.java
+END

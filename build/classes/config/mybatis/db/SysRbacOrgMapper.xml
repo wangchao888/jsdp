@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.dept.dao.SysRbacOrgMapper">
+
+	<!--查询-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheRbacOrg">
+		SELECT 
+		       sid,pid,orgname,zonecode,orglevl,orgtype,orgflag,orgno,corptype,corpno,orgno    
+		    FROM SYS_RBAC_ORG  
+		  <where>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				SID = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				AND PID = #{pid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				AND DELFLAG = #{delflag,jdbcType=VARCHAR}
+			</if>
+	      </where>
+
+		  <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+		  </if>
+	</select>
+	<!-- 查询某个机构的顶级机构，因为只有顶级机构存在数据权限和机构编号 -->
+	<select id="getRootCacheOrg" parameterType="map" resultType="CacheRbacOrg">
+	    SELECT SID,PID,ORGNAME,ZONECODE,ORGLEVL,ORGTYPE,ORGFLAG,ORGNO 
+	    FROM (SELECT SID,PID,ORGNAME,ZONECODE,ORGLEVL,ORGTYPE,ORGFLAG,ORGNO  
+            FROM SYS_RBAC_ORG A 
+            START WITH A.SID= #{orgid,jdbcType=VARCHAR}  
+            CONNECT BY PRIOR A.PID=A.SID) 
+        WHERE PID IS NULL
+	</select>
+	
+	<!--查询-->
+	<select id="getSysRbacOrg" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,pid,orgname,zonecode,orglevl,orgtype,createBy,createTime,updateBy,updateTime,remark,delFlag,orgflag,orgno,corptype,
+		        (select zonename from sys_area where zonecode = org.Zonecode) as zonename,
+          		(select orgname from SYS_RBAC_ORG where sid = org.pid) as porgname
+		    FROM SYS_RBAC_ORG org 
+		    <where> 
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				SID = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(istop)">
+				AND pid is null
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				AND PID = #{pid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgflag)">
+				AND orgflag = #{orgflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				AND DELFLAG = #{delflag,jdbcType=VARCHAR}
+			</if>
+			</where>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!--分页-->
+	<select id="pageSysRbacOrg" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+              a.sid,a.pid,a.orgname,a.zonecode,a.orglevl,d.dictvalue AS orglevlname,a.orgtype,dd.dictvalue AS orgtypename,
+              a.createBy,a.createTime,a.updateBy,a.updateTime,a.remark,a.delFlag,a.orgno,a.corptype,a.orgno
+         FROM SYS_RBAC_ORG a
+           left join SYS_DICT_CONTENT d on  d.dictlabel = a.orglevl and d.state='1'
+           left join SYS_DICT_CONTENT dd on  dd.dictlabel = a.orgtype  and dd.state='1'
+           <where>
+            <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				SID = #{sid,jdbcType=VARCHAR}
+		    </if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				AND PID = #{pid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				AND DELFLAG = #{delflag,jdbcType=VARCHAR}
+			</if>
+			</where>
+	
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+	            ORDER BY ${order}
+	        </if>
+    </select>
+     <!--测试-->
+     
+	<!--列插入-->
+	<insert id="insertSysRbacOrg" parameterType="SysRbacOrg">
+        INSERT INTO SYS_RBAC_ORG
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgname)">
+				orgname,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orglevl)">
+				orglevl,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgtype)">
+				orgtype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delFlag,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgflag)">
+				orgflag,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgNo)">
+				orgNo,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpType)">
+				corpType,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpno)">
+				corpno,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgname)">
+				#{orgname,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orglevl)">
+				#{orglevl,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgtype)">
+				#{orgtype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgflag)">
+				#{orgflag,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgNo)">
+				#{orgNo,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpType)">
+				#{corpType,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpno)">
+				#{corpno,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacOrg" parameterType="SysRbacOrg">
+        UPDATE SYS_RBAC_ORG SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid = #{pid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgname)">
+				orgname = #{orgname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orglevl)">
+				orglevl = #{orglevl,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgtype)">
+				orgtype = #{orgtype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy = #{createBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime = #{createTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy = #{updateBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime = #{updateTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delflag = #{delFlag,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgflag)">
+				orgflag = #{orgflag,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgNo)">
+				orgNo = #{orgNo,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpType)">
+				corpType = #{corpType,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corpno)">
+				corpno = #{corpno,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysRbacOrg" parameterType="java.lang.String">
+        DELETE FROM SYS_RBAC_ORG WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacOrg">
+      DELETE FROM SYS_RBAC_ORG WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacOrg" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_ORG 
+        <where>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+			SID = #{sid,jdbcType=VARCHAR}
+	    </if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+			AND PID = #{pid,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+			AND DELFLAG = #{delflag,jdbcType=VARCHAR}
+		</if>
+		</where>
+    </select>
+	<!--获取树-->
+    <select id="getOrgTree" parameterType="map" resultType="ZTree">
+        SELECT sid AS id,orgname AS name,pid,'org' as other FROM SYS_RBAC_ORG  
+        <where> 
+        	orgflag in ('1','3')
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag = #{delflag,jdbcType=VARCHAR}  
+        </if>
+        </where>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isAdmin)"> <!-- 非超级管理员时递归旗下所有机构 -->
+            START WITH orgno= #{orgno,jdbcType=VARCHAR}   
+        	CONNECT BY PRIOR SID=PID 
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+    <!--获取树行政区-->
+    <select id="getAreaTree" parameterType="map" resultType="ZTree">
+        SELECT zonecode AS remark, sid AS id,zonename AS name,pid FROM sys_area  WHERE delflag=0
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+             ${where}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+	<!--查询最大机构编号 -->
+    <select id="getMaxOrgNO" resultType="String">
+		select max(orgno)+1 as orgno from sys_rbac_org where orgno like '%'||#{orgno,jdbcType=VARCHAR}||'%'
+		
+		
+	</select>
+    
+</mapper>
+

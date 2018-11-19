@@ -1,0 +1,610 @@
+/*******************************************************************************
+ *    系统名称   ： 物业维修资金管理系统
+ *    开发部门   ： 房产事业部
+ *    文件名        ： SysNoticeController.java
+ *              (C) Copyright shandong joinsoft Corporation 2018
+ *               All Rights Reserved.
+ * *****************************************************************************
+ *    注意： 本内容仅限于山东嘉友软件有限公司内部使用，禁止转发
+ ******************************************************************************/
+package com.joinsoft.module.system.notice.web;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.joinsoft.SessionConstants;
+import com.joinsoft.core.persistence.Page;
+import com.joinsoft.core.token.annotation.FormToken;
+import com.joinsoft.core.utils.StringUtils;
+import com.joinsoft.core.utils.date.DateUtils;
+import com.joinsoft.core.utils.json.JsonTools;
+import com.joinsoft.core.utils.json.JsonUtils;
+import com.joinsoft.core.utils.page.PageTools;
+import com.joinsoft.dubbo.service.IUserService;
+import com.joinsoft.module.JsdpConstants;
+import com.joinsoft.module.system.dictcontent.service.SysDictContentService;
+import com.joinsoft.module.system.notice.entity.SysNoticedetail;
+import com.joinsoft.module.system.notice.entity.SysNoticeinfo;
+import com.joinsoft.module.system.notice.service.SendNoticeService;
+import com.joinsoft.module.system.notice.service.SysNoticedetailService;
+import com.joinsoft.module.system.notice.service.SysNoticeinfoService;
+import com.joinsoft.module.system.user.service.SysRbacUserService;
+import com.joinsoft.platform.global.entity.CacheRbacOrg;
+import com.joinsoft.platform.global.entity.CacheRbacUser;
+
+/**
+ * 消息通知
+ * @author scy
+ * @since  2018年3月30日
+ */
+@Controller
+@RequestMapping(value="/system/notice/")
+public class SysNoticeController {
+	private String url ="/system/notice/";
+	
+	@Autowired
+	private SysNoticedetailService noticedetailService;
+	
+	@Autowired
+	private SysNoticeinfoService noticeinfoService;
+	
+	@Autowired
+	private IUserService userService;
+	
+	@Autowired
+	private SysRbacUserService rbacUserService;
+	
+	@Autowired
+	private SysDictContentService dictContentService;
+	
+	@Autowired
+	private SendNoticeService sendNoticeService;
+	
+	/**
+	 * 进入通知消息列表
+	 * @param model
+	 * @param request
+	 * @param menuid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午2:24:40
+	 */
+	@RequestMapping(value="infoList")
+	public String infoList(Model model,HttpServletRequest request, String menuid){
+		model.addAttribute("menuid", menuid);
+		return url+"infoList";
+	}
+	/**
+	 * 数据显示
+	 * @param request
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午2:26:06
+	 */
+	@RequestMapping(value = "/infoShow")
+    @ResponseBody
+    public String infoShow(HttpServletRequest request,String ntctitle,String releasedate) {
+		CacheRbacUser rbacUser = userService.getRbacUserBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+        Page page = PageTools.getPageByParam(request);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("ntctitle", ntctitle);
+        params.put("releasedate", releasedate);
+        params.put("page", page);
+<<<<<<< .mine
+        params.put("order", "state,releaseDate,sid desc");
+=======
+        params.put("userid", rbacUser.getSid());
+        params.put("order", "releaseDate desc,sid ");
+>>>>>>> .r1868
+        List<Map<String, Object>> dataList = noticeinfoService.getEntityByPage(params);
+        return JsonTools.ToDatatableJson(dataList, StringUtils.toString(page.getDraw()), StringUtils.toString(page.getTotalResult()));
+        
+    }
+	/**
+	 * 进入增加界面
+	 * @param model
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午2:50:05
+	 */
+	@FormToken(save=true)
+	@RequestMapping(value="infoInitAdd")
+	public String infoInitAdd(Model model,HttpServletRequest request){
+		//选择主管单位时，获取当前用户机构下所有的主管用户
+		CacheRbacOrg rbacOrg = userService.getRbacOrgBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("orgid", rbacOrg.getSid());
+		params.put("usertype", JsdpConstants.USERTYPE_COMP);
+	  	List<Map<String, Object>> userMap = rbacUserService.getOrgUser(params);
+	  	model.addAttribute("userMap",userMap);
+	    //选择银行用户时，获取当前用户机构下所有的银行用户
+	  	params.clear();
+  		params.put("orgno", rbacOrg.getOrgNo());
+  		params.put("usertype", JsdpConstants.USERTYPE_BANK);
+  	  	List<Map<String, Object>> bankMap = rbacUserService.getOrgUser(params);
+	  	model.addAttribute("bankMap",bankMap);
+	  	//选择企业时，获取企业类型
+	  	params.clear();
+	  	params.put("dictno", "75");
+	  	params.put("delflag", JsdpConstants.HFMP_Delflag_N);
+	  	params.put("state", "1");
+		List<Map<String, Object>> corpMap = dictContentService.getEntityByList(params);
+		model.addAttribute("corpMap",corpMap);
+		model.addAttribute("corpMap",corpMap);
+		model.addAttribute("date",DateUtils.getDateAsSep());
+		DateUtils.getDateAsSep();
+		
+		return url+"infoAdd";
+	}
+	/**
+	 * 保存增加数据
+	 * @param request
+	 * @param entity
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午4:41:55
+	 */
+	@FormToken(remove=true)
+	@RequestMapping(value="saveInfo")
+	@ResponseBody
+	public String saveInfo(HttpServletRequest request, SysNoticeinfo entity){
+		String errMsg = "";
+		CacheRbacOrg rbacOrg = userService.getRbacOrgBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		CacheRbacUser rbacUser = userService.getRbacUserBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		try {
+			String userids = request.getParameter("userids");
+			entity.setOrgid(rbacOrg.getSid());
+			entity.setUserid(rbacUser.getSid());
+			noticeinfoService.saveEntity(entity,userids,rbacOrg);
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_SUCCESS, JsdpConstants.AJAX_RESULT_MSG_T);
+		} catch (Exception e) {
+			errMsg = e.getMessage();
+		}
+		return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_FAIL, errMsg);
+	}
+	/**
+	 * 进入编辑修改界面
+	 * @param model
+	 * @param request
+	 * @param sid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月2日下午3:34:42
+	 */
+	@FormToken(save=true)
+	@RequestMapping(value="infoInitEdit")
+	public String infoInitEdit(Model model,HttpServletRequest request,String sid){
+		CacheRbacOrg rbacOrg = userService.getRbacOrgBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		//消息表数据
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("sid", sid);
+		Map<String, Object> dataMap = noticeinfoService.getEntity(params);
+		model.addAttribute("dataMap",dataMap);
+		model.addAttribute("infoid",sid);
+		if (JsdpConstants.NOTICE_USERTYPE_00.equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为全部用户
+			this.setModel(model, rbacOrg,StringUtils.getString(dataMap, "USERTYPE"));
+		} else if (JsdpConstants.NOTICE_USERTYPE_01.equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为主管用户
+			this.setModel(model, rbacOrg,StringUtils.getString(dataMap, "USERTYPE"));
+			//获取已添加的主管用户
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getEntityByList(params);
+			model.addAttribute("comList",comList);
+			//获取未添加的主管用户
+			params.put("orgid", rbacOrg.getSid());
+			params.put("usertype", JsdpConstants.USERTYPE_COMP);
+		  	List<Map<String, Object>> userMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("userMap",userMap);
+		} else if (JsdpConstants.NOTICE_USERTYPE_02.equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为企业用户
+			this.setModel(model, rbacOrg,StringUtils.getString(dataMap, "USERTYPE"));
+			//获取已选的企业类型
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getDistin(params);
+			model.addAttribute("comList",comList);
+			//获取未选择的企业类型
+		  	params.put("dictno", "75");
+		  	params.put("delflag", JsdpConstants.HFMP_Delflag_N);
+		  	params.put("state", "1");
+			List<Map<String, Object>> corpMap = dictContentService.getEntityByList(params);
+			model.addAttribute("corpMap",corpMap);
+		} else if (JsdpConstants.NOTICE_USERTYPE_03.equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为银行用户
+			this.setModel(model, rbacOrg,StringUtils.getString(dataMap, "USERTYPE"));
+			//获取已添加的银行用户
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getEntityByList(params);
+			model.addAttribute("comList",comList);
+			//获取未添加的银行用户
+			params.put("orgid", rbacOrg.getSid());
+			params.put("usertype", JsdpConstants.USERTYPE_BANK);
+			List<Map<String, Object>> bankMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("bankMap",bankMap);
+		}
+		
+		return url+"infoEdit";
+	}
+	/**
+	 * 统一封装model
+	 * @param model
+	 * @param rbacOrg
+	 * @param usertype
+	 *
+	 * @author scy
+	 * @since 2018年4月2日下午3:38:37
+	 */
+	public void setModel(Model model,CacheRbacOrg rbacOrg,String usertype) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		if ("00".equals(usertype)) {
+			//选择主管单位时，获取当前用户机构下所有的主管用户
+			params.put("orgid", rbacOrg.getSid());
+			params.put("usertype", JsdpConstants.USERTYPE_COMP);
+		  	List<Map<String, Object>> userMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("userMap",userMap);
+		    //选择银行用户时，获取当前用户机构下所有的银行用户
+		  	params.clear();
+	  		params.put("orgno", rbacOrg.getOrgNo());
+	  		params.put("usertype", JsdpConstants.USERTYPE_BANK);
+	  	  	List<Map<String, Object>> bankMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("bankMap",bankMap);
+		  	//选择企业时，获取企业类型
+		  	params.clear();
+		  	params.put("dictno", "75");
+		  	params.put("delflag", JsdpConstants.HFMP_Delflag_N);
+		  	params.put("state", "1");
+			List<Map<String, Object>> corpMap = dictContentService.getEntityByList(params);
+			model.addAttribute("corpMap",corpMap);
+		}
+		if ("01".equals(usertype)) {
+			 //选择银行用户时，获取当前用户机构下所有的银行用户
+		  	params.clear();
+	  		params.put("orgno", rbacOrg.getOrgNo());
+	  		params.put("usertype", JsdpConstants.USERTYPE_BANK);
+	  	  	List<Map<String, Object>> bankMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("bankMap",bankMap);
+		  	//选择企业时，获取企业类型
+		  	params.clear();
+		  	params.put("dictno", "75");
+		  	params.put("delflag", JsdpConstants.HFMP_Delflag_N);
+		  	params.put("state", "1");
+			List<Map<String, Object>> corpMap = dictContentService.getEntityByList(params);
+			model.addAttribute("corpMap",corpMap);
+		}
+		if ("02".equals(usertype)) {
+			//选择主管单位时，获取当前用户机构下所有的主管用户
+			params.put("orgid", rbacOrg.getSid());
+			params.put("usertype", JsdpConstants.USERTYPE_COMP);
+		  	List<Map<String, Object>> userMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("userMap",userMap);
+		    //选择银行用户时，获取当前用户机构下所有的银行用户
+		  	params.clear();
+	  		params.put("orgno", rbacOrg.getOrgNo());
+	  		params.put("usertype", JsdpConstants.USERTYPE_BANK);
+	  	  	List<Map<String, Object>> bankMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("bankMap",bankMap);
+			
+		}
+		if ("03".equals(usertype)) {
+			//选择主管单位时，获取当前用户机构下所有的主管用户
+			params.put("orgid", rbacOrg.getSid());
+			params.put("usertype", JsdpConstants.USERTYPE_COMP);
+		  	List<Map<String, Object>> userMap = rbacUserService.getOrgUser(params);
+		  	model.addAttribute("userMap",userMap);
+		  	//选择企业时，获取企业类型
+		  	params.clear();
+		  	params.put("dictno", "75");
+		  	params.put("delflag", JsdpConstants.HFMP_Delflag_N);
+		  	params.put("state", "1");
+			List<Map<String, Object>> corpMap = dictContentService.getEntityByList(params);
+			model.addAttribute("corpMap",corpMap);
+		}
+	}
+	/**
+	 * 保存修改数据
+	 * @param request
+	 * @param entity
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月2日下午5:31:23
+	 */
+	@FormToken(remove=true)
+	@RequestMapping(value="updateInfo")
+	@ResponseBody
+	public String updateInfo(HttpServletRequest request, SysNoticeinfo entity){
+		String errMsg = "";
+		CacheRbacOrg rbacOrg = userService.getRbacOrgBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		CacheRbacUser rbacUser = userService.getRbacUserBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		try {
+			String userids = request.getParameter("userids");
+			entity.setOrgid(rbacOrg.getSid());
+			entity.setUserid(rbacUser.getSid());
+			noticeinfoService.updateInfo(request.getParameter("infoid"),entity,userids,rbacOrg);
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_SUCCESS, JsdpConstants.AJAX_RESULT_MSG_T);
+		} catch (Exception e) {
+			errMsg = e.getMessage();
+		}
+		return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_FAIL, errMsg);
+	}
+	/**
+	 * 删除消息
+	 * @param entity
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月3日上午9:00:32
+	 */
+    @RequestMapping(value = "delete")
+    @ResponseBody
+    public String delete(SysNoticeinfo entity) {
+    	String errMsg = "";
+	    try {
+	    	entity.setState(JsdpConstants.NOTICE_X);
+	    	noticeinfoService.updateEntity(entity);
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_SUCCESS, JsdpConstants.AJAX_RESULT_MSG_T);
+		} catch (Exception e) {
+			errMsg = e.getMessage();
+		} 
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_FAIL, errMsg);
+    }
+    /**
+	 * 进入详情显示界面
+	 * @param model
+	 * @param request
+	 * @param sid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月2日下午3:34:42
+	 */
+	@FormToken(save=true)
+	@RequestMapping(value="details")
+	public String details(Model model,HttpServletRequest request,String sid){
+		CacheRbacOrg rbacOrg = userService.getRbacOrgBySessionid((String)request.getSession().getAttribute(SessionConstants.JSDP_USER_SESSIONID));
+		//消息表数据
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("sid", sid);
+		Map<String, Object> dataMap = noticeinfoService.getEntity(params);
+		model.addAttribute("dataMap",dataMap);
+		model.addAttribute("infoid",sid);
+		if ("00".equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为全部用户
+			this.setModel(model, rbacOrg,StringUtils.getString(dataMap, "USERTYPE"));
+		} else if ("01".equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为主管用户
+			//获取已添加的主管用户
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getEntityByList(params);
+			model.addAttribute("comList",comList);
+		} else if ("02".equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为企业用户
+			//获取已选的企业类型
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getDistin(params);
+			model.addAttribute("comList",comList);
+		} else if ("03".equals(StringUtils.getString(dataMap, "USERTYPE"))) {//如果为银行用户
+			//获取已添加的银行用户
+			params.clear();
+			params.put("noticeid", dataMap.get("SID"));
+			List<Map<String, Object>> comList = noticedetailService.getEntityByList(params);
+			model.addAttribute("comList",comList);
+		}
+		return url+"details";
+	}
+	/**
+	 * 详情页面的用户数据显示
+	 * @param request
+	 * @param username
+	 * @param viewflag
+	 * @param infoid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月3日下午1:39:20
+	 */
+	@RequestMapping(value = "/detailShow")
+    @ResponseBody
+    public String detailShow(HttpServletRequest request,String username,String viewflag,String infoid) {
+        Page page = PageTools.getPageByParam(request);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("username", username);
+        params.put("viewflag", viewflag);
+        params.put("page", page);
+        params.put("noticeid", infoid);
+        List<Map<String, Object>> dataList = noticedetailService.getEntityByPage(params);
+        return JsonTools.ToDatatableJson(dataList, StringUtils.toString(page.getDraw()), StringUtils.toString(page.getTotalResult()));
+    }
+	
+	/**
+	 * 发送消息
+	 * @param entity
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月3日下午1:44:52
+	 */
+    @RequestMapping(value = "sendMessage")
+    @ResponseBody
+    public String sendMessage(SysNoticeinfo entity) {
+    	String errMsg = "";
+	    try {
+	    	entity.setState(JsdpConstants.NOTICE_Y);
+	    	entity.setReleasedate(DateUtils.getTimeNow());
+	    	noticeinfoService.updateEntity(entity);
+	    	// 推送通知消息
+	    	sendNoticeService.sendNoticeByTopic(entity.getSid());
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_SUCCESS, JsdpConstants.AJAX_RESULT_MSG_T);
+		} catch (Exception e) {
+			errMsg = e.getMessage();
+		} 
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_FAIL, errMsg);
+    }
+    /**
+	 * 撤销发送
+	 * @param entity
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月3日下午1:44:52
+	 */
+    @RequestMapping(value = "undoMessage")
+    @ResponseBody
+    public String undoMessage(SysNoticeinfo entity) {
+    	String errMsg = "";
+	    try {
+	    	entity.setState(JsdpConstants.NOTICE_N);
+	    	noticeinfoService.updateEntity(entity);
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_SUCCESS, JsdpConstants.AJAX_RESULT_MSG_T);
+		} catch (Exception e) {
+			errMsg = e.getMessage();
+		} 
+			return JsonTools.simpleAjaxJsonResponse(JsdpConstants.HFMP_RESULT_FAIL, errMsg);
+    }
+	/**
+	 * 用户消息详情
+	 * @param model
+	 * @param request
+	 * @param sid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月3日下午5:01:45
+	 */
+	@RequestMapping(value="allMessage")
+	public String allMessage(Model model,HttpServletRequest request, String sid,String userid,String type){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("sid", sid);
+		model.addAttribute("dataMap", noticeinfoService.getEntity(params));
+		if (StringUtils.isEmpty(type)) {
+			SysNoticedetail entity = new SysNoticedetail();
+			entity.setUserid(userid);
+			entity.setNoticeid(sid);
+			entity.setViewflag(JsdpConstants.VIEWFLAG_Y);
+			entity.setViewtime(DateUtils.getTimeNow());
+			noticedetailService.updateEntity(entity);
+		}
+		return url+"allMessage";
+	}
+	
+	/**
+	 * main页面弹出数据显示
+	 * @param request
+	 * @param userid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月10日上午9:01:06
+	 */
+	@RequestMapping(value = "/mainList")
+    @ResponseBody
+    public String mainList(HttpServletRequest request,String userid) {
+        Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userid", userid);
+		List<Map<String, Object>> noticeList =  noticeinfoService.getUserMessage(params);
+        try {
+        	return JsonUtils.ObjectToJson(noticeList);
+		} catch (Exception e) {
+			return null;
+		}
+    }
+	/**
+	 * mian页面查看用户的全部消息
+	 * @param model
+	 * @param request
+	 * @param menuid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午2:24:40
+	 */
+	@RequestMapping(value="allMessageList")
+	public String allMessageList(){
+		return url+"allMessageList";
+	}
+	/**
+	 * 数据显示
+	 * @param request
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年3月30日下午2:26:06
+	 */
+	@RequestMapping(value = "/allMessageShow")
+    @ResponseBody
+    public String allMessageShow(HttpServletRequest request,String ntctitle,String releasedate,String userid,String viewflag,String type) {
+		Page page = PageTools.getPageByParam(request);
+		if ("1".equals(type)) {//如果是首页，只显示5条
+			page.setShowCount(4);
+		}
+        Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userid", userid);
+		params.put("page", page);
+		params.put("ntctitle", ntctitle);
+	    params.put("releasedate", releasedate);
+	    params.put("viewflag", viewflag);
+		List<Map<String, Object>> noticeList =  noticeinfoService.getUserMessageByPage(params);
+        return JsonTools.ToDatatableJson(noticeList, StringUtils.toString(page.getDraw()), StringUtils.toString(page.getTotalResult()));
+        
+    }
+	/**
+	 * 把消息改为已查阅并返回已查阅后的长度（如果消息为未查阅）
+	 * @param request
+	 * @param userid
+	 * @return
+	 *
+	 * @author scy
+	 * @since 2018年4月24日上午9:26:33
+	 */
+	@RequestMapping(value = "/detailsLength")
+    @ResponseBody
+    public String detailsLength(HttpServletRequest request,String userid,String sid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("noticeid", sid);
+		params.put("userid", userid);
+		if (JsdpConstants.VIEWFLAG_N.equals(StringUtils.getString(noticedetailService.getEntity(params), "VIEWFLAG"))) {
+			SysNoticedetail entity = new SysNoticedetail();
+			entity.setUserid(userid);
+			entity.setNoticeid(sid);
+			entity.setViewflag(JsdpConstants.VIEWFLAG_Y);
+			entity.setViewtime(DateUtils.getTimeNow());
+			noticedetailService.updateEntity(entity);
+		}
+		params.clear();
+		params.put("userid", userid);
+		List<Map<String, Object>> noticeList =  noticeinfoService.getUserMessage(params);
+        try {
+        	return JsonUtils.ObjectToJson(noticeList);
+		} catch (Exception e) {
+			return null;
+		}
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}
+

@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/notice/dao
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-04-10T02:50:03.875000Z
+1208
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+SysNoticedetailMapper.java
+file
+
+
+
+
+2018-09-05T02:33:28.489000Z
+9c6acc8814439c8055ed4246762897b5
+2018-04-03T07:44:58.234375Z
+1171
+scy
+
+SysNoticeinfoMapper.java
+file
+
+
+
+
+2018-09-05T02:33:28.481000Z
+7e5699ab5a6e917139658355b985e8e1
+2018-04-10T02:50:03.875000Z
+1208
+scy
+

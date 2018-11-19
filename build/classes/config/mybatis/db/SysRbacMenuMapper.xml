@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.menu.dao.SysRbacMenuMapper">
+
+	<!--查询-->
+	<select id="getSysRbacMenu" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,zonecode,appid,menuname,menuurl,pid,menuno,menuico,targetfrm,permission,state,createby,createtime,updateby,updatetime,remark,delflag,
+		       (select menuname from SYS_RBAC_MENU where sid = m.pid) as pname,
+		       (select appname from sys_rbac_application where sid = m.appid) as appname
+		    FROM SYS_RBAC_MENU m 
+		    where 1=1 
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				and pid = #{pid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+				and appid = #{appid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				and state = #{state,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!-- 添加时需要的菜单序号 -->
+	<select id="querySysRbacMenu" parameterType="map" resultType="java.util.HashMap">
+		SELECT max(menuno+1) as menuno  FROM SYS_RBAC_MENU 
+		    where 1=1 	    
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				and pid = #{pid,jdbcType=VARCHAR}
+			</if>	
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>	    
+	</select>
+	
+	<!--查找pid为空的顶级菜单序号 -->
+	<select id="queryMaxPidMenuno" resultType="String">
+		SELECT MAX(MENUNO+1) AS MENUNO FROM SYS_RBAC_MENU
+		WHERE DELFLAG='0' AND PID IS NULL
+		
+	</select>
+	
+	<!--分页-->
+	<select id="pageSysRbacMenu" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,zonecode,appid,menuname,menuurl,pid,menuno,menuico,targetfrm,permission,state,createby,createtime,updateby,updatetime,remark,delflag
+         FROM SYS_RBAC_MENU
+         WHERE 1=1  
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+            and sid =  #{sid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+            and appid =  #{appid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+            and state =  #{state,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag =  #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysRbacMenu" parameterType="SysRbacMenu">
+        INSERT INTO SYS_RBAC_MENU
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+				appid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuname)">
+				menuname,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuurl)">
+				menuurl,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuno)">
+				menuno,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuico)">
+				menuico,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(targetfrm)">
+				targetfrm,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(permission)">
+				permission,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+				#{appid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuname)">
+				#{menuname,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuurl)">
+				#{menuurl,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuno)">
+				#{menuno,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuico)">
+				#{menuico,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(targetfrm)">
+				#{targetfrm,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(permission)">
+				#{permission,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				#{state,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				#{delflag,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacMenu" parameterType="SysRbacMenu">
+        UPDATE SYS_RBAC_MENU SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+				appid = #{appid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuname)">
+				menuname = #{menuname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuurl)">
+				menuurl = #{menuurl,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				pid = #{pid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuno)">
+				menuno = #{menuno,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuico)">
+				menuico = #{menuico,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(targetfrm)">
+				targetfrm = #{targetfrm,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(permission)">
+				permission = #{permission,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state = #{state,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby = #{createby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime = #{createtime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+	
+	<!-- 更新菜单表中的删除标志 -->
+	<update id="updateSysMenuDelFlag" parameterType="SysRbacMenu">
+		UPDATE SYS_RBAC_MENU SET
+			delflag = #{delflag,jdbcType=VARCHAR} 
+		WHERE 
+			pid = #{pid,jdbcType=VARCHAR}
+	</update>
+	
+	<!--删除-->
+    <delete id="deleteSysRbacMenu"  parameterType="java.lang.String">
+        DELETE FROM SYS_RBAC_MENU WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacMenu">
+      DELETE FROM SYS_RBAC_MENU WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacMenu" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_MENU 
+        WHERE 1=1
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+            and sid =  #{sid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+            and pid =  #{pid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appid)">
+            and appid =  #{appid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+            and state =  #{state,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag =  #{delflag,jdbcType=VARCHAR}
+        </if>
+    </select>
+    
+    <!--查询菜单最大序号  -->
+    <select id="queryMaxMenuno" parameterType="map" resultType="long">
+    	SELECT MAX(MENUNO) FROM SYS_RBAC_MENU
+    	WHERE  1=1
+    	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+            and pid =  #{sid,jdbcType=VARCHAR}
+        </if>
+    </select>
+    
+    <!--获取树-->
+    <select id="getMenuTree" parameterType="map" resultType="ZTree">
+        SELECT sid AS id,menuName AS name,pid FROM SYS_RBAC_MENU  WHERE delflag=0
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+           and sid in ( select MenuId from sys_actor_menu where actorId in (select RoleId from sys_user_role where userid = #{userid,jdbcType=VARCHAR} ))
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+    
+    <!--查询菜单，根据用户角色来筛选   -->
+	<select id="getSysRbacMenuByRole" parameterType="map" resultType="CacheRbacMenu">
+		SELECT MENU.SID,
+	       MENU.ZONECODE,
+	       MENU.APPID,
+	       MENU.MENUNAME,
+	       MENU.MENUURL,
+	       MENU.PID,
+	       MENU.MENUNO,
+	       MENU.MENUICO  
+		FROM SYS_RBAC_MENU MENU
+		WHERE EXISTS
+ 			(SELECT MENUID
+	          FROM SYS_ACTOR_MENU ACTOR_MENU
+	         WHERE 
+	            MENU.SID = ACTOR_MENU.MENUID
+	            AND(                  
+	               (EXISTS
+	                	(SELECT ROLEID FROM SYS_USER_ROLE USERROLE WHERE ACTOR_MENU.ACTORID = USERROLE.ROLEID AND USERID = (SELECT SID FROM SYS_RBAC_USER WHERE LOGINNAME = #{loginname,jdbcType=VARCHAR})
+	                 	) AND lower(ACTOR_MENU.ACTORTYPE) = 'role'
+	                )
+	                <!--增加权限类型是用户的权限过滤 start 仝玉锐   -->
+	                 OR
+	               (ACTOR_MENU.Actorid = (SELECT SID FROM SYS_RBAC_USER WHERE LOGINNAME = #{loginname,jdbcType=VARCHAR}) and lower(ACTOR_MENU.ACTORTYPE) = 'user') 
+	             	<!--增加权限类型是用户的权限过滤 end   仝玉锐  -->
+	             )
+	          )
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(pid)">
+				AND MENU.PID = #{pid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				AND MENU.DELFLAG = #{delflag,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				AND MENU.STATE = #{state,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isroot)">
+				AND MENU.PID IS NULL
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	<!--根据单位类型获取单位对应的才菜单树-->
+    <select id="queryMenuTreeCorp" parameterType="map" resultType="CacheRbacMenu">
+        SELECT 
+        	sid,menuName AS menuname,pid 
+        FROM SYS_RBAC_MENU  
+        WHERE delflag = 0
+        AND sid IN
+        (select MenuId FROM sys_actor_menu    WHERE actorid in
+		(select sId    FROM sys_rbac_role     WHERE sid in
+		(select roleid FROM sys_rbac_corprole WHERE corptype = #{corptype,jdbcType=VARCHAR})))   
+  		 ORDER BY sid
+    </select>
+</mapper>
+

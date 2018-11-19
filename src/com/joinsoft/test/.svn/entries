@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/test
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2017-06-08T07:03:27.843750Z
+317
+lzx
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+Client.java
+file
+
+
+
+
+2018-09-05T02:33:37.329000Z
+dd4ea28941713f847d1559cbcd1e73dd
+2017-06-08T07:03:27.843750Z
+317
+lzx
+
+XmemcachedUtils.java
+file
+
+
+
+
+2018-09-05T02:33:37.336000Z
+339da338ef39c2ec46a1c1ce71fcbd7c
+2017-05-08T01:36:48.656250Z
+122
+lzx
+

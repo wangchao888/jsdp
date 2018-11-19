@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.dictype.dao.SysDicTypeMapper">
+
+	<!--查询-->
+	<select id="getSysDicType" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,dictno,dictname,dictdesc,createby,createtime,updateby,updatetime,remark,delflag
+		    FROM SYS_DIC_TYPE WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictno)">
+				and dictno = #{dictno,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	<!--查询-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheDicType">
+		SELECT 
+		       sid,dictno,dictname 
+		    FROM SYS_DIC_TYPE WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysDicType" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,dictno,dictname,dictdesc,createby,createtime,updateby,updatetime,remark,delflag
+         FROM SYS_DIC_TYPE  WHERE 1=1
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+            and sid = #{sid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysDicType" parameterType="SysDicType">
+        INSERT INTO SYS_DIC_TYPE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictno)">
+				dictno,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictname)">
+				dictname,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictdesc)">
+				dictdesc,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictno)">
+				#{dictno,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictname)">
+				#{dictname,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictdesc)">
+				#{dictdesc,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				#{delflag,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysDicType" parameterType="SysDicType">
+        UPDATE SYS_DIC_TYPE SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictno)">
+				dictno = #{dictno,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictname)">
+				dictname = #{dictname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictdesc)">
+				dictdesc = #{dictdesc,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby = #{createby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime = #{createtime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysDicType" parameterType="java.lang.String">
+        DELETE FROM SYS_DIC_TYPE WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysDicType">
+      DELETE FROM SYS_DIC_TYPE WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysDicType" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_DIC_TYPE 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+</mapper>
+

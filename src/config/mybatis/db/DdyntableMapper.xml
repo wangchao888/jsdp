@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.dyntable.dao.DdyntableMapper">
+	<!--根据id查询实体-->
+	<select id="queryById" parameterType="java.lang.String" resultType="Ddyntable">
+		SELECT ID,TABLEID,TABLENAME,TABLENAMECN,CONDITIONS,ISMODIFY,REMARK
+		    FROM D_DYNTABLE WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!--查询-->
+	<select id="getDdyntable" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       id,tableid,tablename,tablenamecn,conditions,remark,ismodify,
+		       (CASE WHEN D_DYNTABLE.ismodify = '0' THEN '否' ELSE '是' END) AS ismodifyv
+		    FROM D_DYNTABLE
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE 1=1  ${where}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageDdyntable" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          id,tableid,tablename,tablenamecn,conditions,remark,ismodify,
+		          (CASE WHEN D_DYNTABLE.ismodify = '0' THEN '否' ELSE '是' END) AS ismodifyv
+         FROM D_DYNTABLE 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+            WHERE 1=1 ${where}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertDdyntable" parameterType="Ddyntable">
+        INSERT INTO D_DYNTABLE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				id,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tableid)">
+				tableid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablename)">
+				tablename,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablenamecn)">
+				tablenamecn,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				conditions,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				ismodify,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				#{id,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tableid)">
+				#{tableid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablename)">
+				#{tablename,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablenamecn)">
+				#{tablenamecn,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				#{conditions,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				#{ismodify,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateDdyntable" parameterType="Ddyntable">
+        UPDATE D_DYNTABLE SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tableid)">
+				tableid = #{tableid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablename)">
+				tablename = #{tablename,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(tablenamecn)">
+				tablenamecn = #{tablenamecn,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				conditions = #{conditions,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(ismodify)">
+				ismodify = #{ismodify,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        id = #{id,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteDdyntable" parameterType="java.lang.String">
+        DELETE FROM D_DYNTABLE WHERE
+        id = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteDdyntable">
+      DELETE FROM D_DYNTABLE WHERE 
+        id in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countDdyntable" parameterType="map" resultType="long">
+        SELECT count(*) FROM D_DYNTABLE 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+</mapper>
+

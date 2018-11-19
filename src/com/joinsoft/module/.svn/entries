@@ -1,0 +1,67 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-11-19T01:38:22.214079Z
+1867
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+DicConstants.java
+file
+
+
+
+
+2018-09-05T02:33:33.185000Z
+8d17bff7c343f3afc134c30c576a27e5
+2018-03-19T01:17:00.859375Z
+1090
+lzx
+
+HfmpConstants.java
+file
+
+
+
+
+2018-09-05T02:33:33.171000Z
+b54be2fa3c3049e24e5e84b5bd6573c9
+2018-04-10T02:50:03.875000Z
+1208
+scy
+
+JsdpConstants.java
+file
+
+
+
+
+2018-09-05T02:33:33.178000Z
+4f6a57329b6a82f1b72d003fa1413166
+2018-04-10T02:50:03.875000Z
+1208
+scy
+
+system
+dir
+

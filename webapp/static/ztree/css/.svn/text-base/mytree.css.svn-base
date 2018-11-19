@@ -1,0 +1,6 @@
+ul#treeOrg {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}
+ul#treeZone {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}
+ul#treeMenu {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}
+ul#treeDataZone {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}
+ul#treeBusi {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}
+ul#treeZoneType {margin-top: -20px;border: 1px solid #ccc;background: #f0f6e4;width:220px;height:260px;overflow-y:scroll;overflow-x:auto;}

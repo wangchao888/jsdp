@@ -1,0 +1,58 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/webapp/static/js/plugins
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-11-06T01:05:37.423490Z
+1850
+wc
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+chosen
+dir
+
+dataTables
+dir
+
+datapicker
+dir
+
+drag
+dir
+
+iCheck
+dir
+
+metisMenu
+dir
+
+pace
+dir
+
+peity
+dir
+
+switchery
+dir
+
+validate
+dir
+

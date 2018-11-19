@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/webapp/WEB-INF/views/cache/session
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-10-22T03:17:17.340527Z
+1805
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+leftMenuList.jsp
+file
+
+
+
+
+2018-10-22T03:16:33.317000Z
+8de8f517f96e674577027b57f1d054fe
+2018-10-22T03:17:17.340527Z
+1805
+scy
+
+list.jsp
+file
+
+
+
+
+2018-10-22T03:16:33.331000Z
+5221b2aa6f3aa19b9b51a45ce99fb11f
+2018-10-22T03:17:17.340527Z
+1805
+scy
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.area.dao.SysAreaMapper">
+
+
+	<!--分页-->
+	<select id="queryListByCache" parameterType="map"  resultType="CacheArea">
+        SELECT 
+		          sid,pid,zonecode,zonename 
+         FROM SYS_AREA 
+         WHERE 1=1 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+</mapper>
+

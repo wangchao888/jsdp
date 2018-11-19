@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/webapp/WEB-INF/views/system/user
+END
+edit.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/webapp/WEB-INF/views/system/user/edit.jsp
+END
+list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/webapp/WEB-INF/views/system/user/list.jsp
+END
+userHeader.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/1472/jsdp/webapp/WEB-INF/views/system/user/userHeader.jsp
+END
+loglist.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svn7_hfmpmina/!svn/ver/1840/jsdp/webapp/WEB-INF/views/system/user/loglist.jsp
+END
+role.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/1816/jsdp/webapp/WEB-INF/views/system/user/role.jsp
+END
+editPass.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svn7_hfmpmina/!svn/ver/1805/jsdp/webapp/WEB-INF/views/system/user/editPass.jsp
+END

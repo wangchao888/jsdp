@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/dyntable/dao
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2017-06-13T01:12:27.593750Z
+331
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+CommonMapper.java
+file
+
+
+
+
+2018-09-05T02:33:28.110000Z
+d1dfe1d39554c305ffc8d8d360d0cceb
+2017-06-13T01:12:27.593750Z
+331
+scy
+
+DdyntableMapper.java
+file
+
+
+
+
+2018-09-05T02:33:28.118000Z
+cf14f8a09e9b729003ee15b825b79b57
+2017-06-13T01:12:27.593750Z
+331
+scy
+

@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.user.dao.SysRbacUserMapper">
+
+	<!--查询-->
+	<select id="getSysRbacUser" parameterType="map" resultType="java.util.HashMap">
+		SELECT RBAC_USER.sid,
+	       RBAC_USER.zonecode,
+	       RBAC_USER.usertype,
+	       RBAC_USER.orgid,
+	       RBAC_USER.loginname,
+	       RBAC_USER.isadmin,
+	       RBAC_USER.username,
+	       RBAC_USER.passwd,
+	       RBAC_USER.passwordtimelimit,
+	       RBAC_USER.passwordmodifytime,
+	       RBAC_USER.state,
+	       RBAC_USER.createby,
+	       RBAC_USER.createtime,
+	       RBAC_USER.updateby,
+	       RBAC_USER.updatetime,
+	       RBAC_USER.remark,
+	       RBAC_USER.delflag,
+	       RBAC_USER.headicon,
+	       RBAC_USER.icopath,
+	       ORG.orgname
+	  FROM SYS_RBAC_USER RBAC_USER
+	  LEFT JOIN SYS_RBAC_ORG ORG 
+	  ON RBAC_USER.orgid =ORG.sID 
+		  <where>
+		  		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+					  RBAC_USER.sid = #{sid,jdbcType=VARCHAR}
+				</if>
+			    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+					 and RBAC_USER.loginname = #{loginname,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+					 and RBAC_USER.username = #{username,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+					 and RBAC_USER.orgid = #{orgid,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+					 and RBAC_USER.usertype = #{usertype,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+					and RBAC_USER.delflag = #{delflag,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(auusername)">
+		            and RBAC_USER.username like '%'||#{auusername,jdbcType=VARCHAR}||'%'
+		        </if>
+		  </where> 
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!--查询-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheRbacUser">
+		SELECT RBAC_USER.sid,
+	       RBAC_USER.zonecode,
+	       RBAC_USER.usertype,
+	       RBAC_USER.orgid,
+	       RBAC_USER.loginname,
+	       RBAC_USER.username,
+	       RBAC_ORG.orgname   
+	  FROM SYS_RBAC_USER RBAC_USER 
+	  LEFT JOIN SYS_RBAC_ORG RBAC_ORG ON RBAC_USER.orgid = RBAC_ORG.sid 
+	  WHERE 1=1 
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				 and RBAC_USER.sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				 and RBAC_USER.loginname = #{loginname,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				 and RBAC_USER.delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!-- 查询单位用户 -->
+	<select id="queryCorpUserList" parameterType="map" resultType="HfmpCorpUser">
+		SELECT 
+		   RBAC_USER.sid,
+	       RBAC_USER.zonecode,
+	       RBAC_USER.loginname,
+	       RBAC_USER.isadmin,
+	       RBAC_USER.username,
+	       RBAC_USER.passwd,
+	       RBAC_USER.state
+	   FROM SYS_RBAC_USER RBAC_USER
+	   WHERE 1=1 
+	   <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+			and RBAC_USER.sid = #{sid,jdbcType=VARCHAR}
+	   </if>
+	   <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+			and RBAC_USER.orgid = #{orgid,jdbcType=VARCHAR}
+	   </if>
+	   <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+		    and RBAC_USER.delflag = #{delflag,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+	</select>
+	
+	<!--查询-->
+	<select id="getEntity" parameterType="map" resultType="SysRbacUser">
+		SELECT RBAC_USER.sid,
+	       RBAC_USER.zonecode,
+	       RBAC_USER.usertype,
+	       RBAC_USER.orgid,
+	       RBAC_USER.loginname,
+	       RBAC_USER.isadmin,
+	       RBAC_USER.username,
+	       RBAC_USER.passwd,
+	       RBAC_USER.passwordtimelimit,
+	       RBAC_USER.passwordmodifytime,
+	       RBAC_USER.state,
+	       RBAC_USER.createby,
+	       RBAC_USER.createtime,
+	       RBAC_USER.updateby,
+	       RBAC_USER.updatetime,
+	       RBAC_USER.remark,
+	       RBAC_USER.delflag 
+	  FROM SYS_RBAC_USER RBAC_USER
+	  WHERE 1=1 
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				 and RBAC_USER.sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				 and RBAC_USER.loginname = #{loginname,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				 and RBAC_USER.delflag = #{delflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isadmin)">
+				 and RBAC_USER.isadmin = #{isadmin,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				 and RBAC_USER.orgid = #{orgid,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysRbacUser" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,zonecode,usertype,orgid,loginname,username,passwd,passwordtimelimit,passwordmodifytime,
+		          state,createby,createtime,updateby,updatetime,remark,delflag
+         FROM SYS_RBAC_USER 
+         <where>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+	            delflag = #{delflag,jdbcType=VARCHAR}
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+	            and orgid = #{orgid,jdbcType=VARCHAR}
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+	            and loginname like '%'||#{loginname,jdbcType=VARCHAR}||'%'
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+	            and username like '%'||#{username,jdbcType=VARCHAR}||'%'
+	        </if>
+	     </where>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+	
+	<!-- 查询用户类型的最大登陆名(工号) -->
+	<select id="queryMaxLoginName" parameterType="java.util.HashMap" resultType="String">
+		select max(loginname) from sys_rbac_user
+		where 1=1
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+            and usertype = #{usertype,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+            and delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+	</select>
+
+	<!--列插入-->
+	<insert id="insertSysRbacUser" parameterType="SysRbacUser">
+        INSERT INTO SYS_RBAC_USER
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				usertype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				orgid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				loginname,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isadmin)">
+				isadmin,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+				username,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				passwd,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordtimelimit)">
+				passwordtimelimit,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordmodifytime)">
+				passwordmodifytime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(icopath)">
+				icopath,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(headicon)">
+				headicon,
+			</if>
+			
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				#{usertype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				#{orgid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				#{loginname,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isadmin)">
+				#{isadmin,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+				#{username,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				#{passwd,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordtimelimit)">
+				#{passwordtimelimit,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordmodifytime)">
+				#{passwordmodifytime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				#{state,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				#{delflag,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(icopath)">
+				#{icopath,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(headicon)">
+				#{headicon,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacUser" parameterType="SysRbacUser">
+        UPDATE SYS_RBAC_USER SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				usertype = #{usertype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				orgid = #{orgid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				loginname = #{loginname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isadmin)">
+				isadmin = #{isadmin,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+				username = #{username,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				passwd = #{passwd,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordtimelimit)">
+				passwordtimelimit = #{passwordtimelimit,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwordmodifytime)">
+				passwordmodifytime = #{passwordmodifytime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state = #{state,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createby)">
+				createby = #{createby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createtime)">
+				createtime = #{createtime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(headicon)">
+				headicon = #{headicon,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(icopath)">
+				icopath = #{icopath,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+	
+	<!-- 单位用户修改 -->
+	<update id="updateCorpUser" parameterType="HfmpCorpUser">
+		UPDATE SYS_RBAC_USER SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(loginname)">
+				loginname = #{loginname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(passwd)">
+				passwd = #{passwd,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isadmin)">
+				isadmin = #{isadmin,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+				username = #{username,jdbcType=VARCHAR} ,
+			</if>
+ 			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				state = #{state,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateby)">
+				updateby = #{updateby,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updatetime)">
+				updatetime = #{updatetime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				delflag = #{delflag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR}
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysRbacUser" parameterType="java.lang.String">
+        DELETE FROM SYS_RBAC_USER WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacUser">
+      DELETE FROM SYS_RBAC_USER WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacUser" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_USER
+        where 1=1
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				and orgid = #{orgid,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(state)">
+				and state = #{state,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag = #{delflag,jdbcType=VARCHAR}
+		</if>
+    </select>
+    <select id="getOrgUser" parameterType="map" resultType="java.util.HashMap">
+    SELECT distinct orgname, ruser.username, ruser.loginname,ruser.sid
+	FROM sys_rbac_org org
+	inner join SYS_RBAC_USER ruser on ruser.orgid = org.sid
+	where org.delflag = '0' and ruser.delflag = '0'
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				and ruser.usertype = #{usertype,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(noticeid)">
+				and ruser.sid not in (SELECT userid FROM SYS_NOTICEDETAIL  WHERE noticeid = #{noticeid,jdbcType=VARCHAR} )
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				START WITH org.orgno= #{orgno,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgid)">
+				START WITH org.sid = #{orgid,jdbcType=VARCHAR}
+		</if>
+	CONNECT BY PRIOR org.SID=org.PID  
+    </select>
+    <select id="getUserId" parameterType="map" resultType="String">
+    select sid from sys_rbac_user where  orgId in (select sid from sys_rbac_org where corptype = #{corptype,jdbcType=VARCHAR})
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>
+

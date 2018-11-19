@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.dynfield.dao.DdynfieldMapper">
+	<!-- 动态查询使用 -->
+    <select id="queryDdynFiemap" parameterType="map" resultType="java.util.HashMap">
+		SELECT ID,
+               EXTID,
+               FIELDNAME,
+               FIELDNAMECN,
+               ORDERNO,
+               FIELDTYPE,
+               FIELDLEN,
+               FIELDWIDTH,
+               ISNULL,
+               ISDISP,
+               ISREPT,
+               ISZERO,
+               ISKEY,
+               DICTABLENAME,
+               DICKEY,
+               DICVALUE,
+               CONDITIONS,
+               FIXVALUE,
+               REMARK
+		    FROM D_DYNFIELD		    
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+                WHERE 1=1 ${where}
+	        </if>
+	        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+	            ORDER BY ${order}
+	        </if>
+	</select>
+
+	<!--查询-->
+	<select id="getDdynfield" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       id,extid,fieldname,fieldnamecn,orderno,fieldtype,fieldlen,fieldwidth,isnull,iskey,isdisp,isrept,iszero,dictablename,dickey,dicvalue,conditions,fixvalue,remark
+		    FROM D_DYNFIELD
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE 1=1  ${where}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageDdynfield" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          id,extid,fieldname,fieldnamecn,orderno,fieldtype,fieldlen,fieldwidth,isnull,iskey,isdisp,isrept,iszero,dictablename,dickey,dicvalue,conditions,fixvalue,remark,
+		          (CASE WHEN D_DYNFIELD.ISKEY = '0' THEN '否' ELSE '是' END) as ISKEYV,
+		          (CASE WHEN D_DYNFIELD.ISDISP = '0' THEN '否' ELSE '是' END) as ISDISPV,
+		          (CASE WHEN D_DYNFIELD.ISREPT = '0' THEN '否' ELSE '是' END) as ISREPTV,
+		          (CASE WHEN D_DYNFIELD.ISZERO = '0' THEN '否' ELSE '是' END) as ISZEROV,
+		          (CASE WHEN D_DYNFIELD.ISNULL = '0' THEN '否' ELSE '是' END) as ISNULLV
+         FROM D_DYNFIELD WHERE 1=1
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(extid)">
+             and extid = #{extid,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertDdynfield" parameterType="Ddynfield">
+        INSERT INTO D_DYNFIELD
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				id,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(extid)">
+				extid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldname)">
+				fieldname,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldnamecn)">
+				fieldnamecn,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orderno)">
+				orderno,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldtype)">
+				fieldtype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldlen)">
+				fieldlen,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldwidth)">
+				fieldwidth,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isnull)">
+				isnull,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iskey)">
+				iskey,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isdisp)">
+				isdisp,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isrept)">
+				isrept,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iszero)">
+				iszero,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictablename)">
+				dictablename,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dickey)">
+				dickey,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dicvalue)">
+				dicvalue,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				conditions,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fixvalue)">
+				fixvalue,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				#{id,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(extid)">
+				#{extid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldname)">
+				#{fieldname,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldnamecn)">
+				#{fieldnamecn,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orderno)">
+				#{orderno,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldtype)">
+				#{fieldtype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldlen)">
+				#{fieldlen,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldwidth)">
+				#{fieldwidth,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isnull)">
+				#{isnull,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iskey)">
+				#{iskey,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isdisp)">
+				#{isdisp,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isrept)">
+				#{isrept,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iszero)">
+				#{iszero,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictablename)">
+				#{dictablename,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dickey)">
+				#{dickey,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dicvalue)">
+				#{dicvalue,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				#{conditions,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fixvalue)">
+				#{fixvalue,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateDdynfield" parameterType="Ddynfield">
+        UPDATE D_DYNFIELD SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				id = #{id,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(extid)">
+				extid = #{extid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldname)">
+				fieldname = #{fieldname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldnamecn)">
+				fieldnamecn = #{fieldnamecn,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orderno)">
+				orderno = #{orderno,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldtype)">
+				fieldtype = #{fieldtype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldlen)">
+				fieldlen = #{fieldlen,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fieldwidth)">
+				fieldwidth = #{fieldwidth,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isnull)">
+				isnull = #{isnull,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iskey)">
+				iskey = #{iskey,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isdisp)">
+				isdisp = #{isdisp,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(isrept)">
+				isrept = #{isrept,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(iszero)">
+				iszero = #{iszero,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dictablename)">
+				dictablename = #{dictablename,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dickey)">
+				dickey = #{dickey,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(dicvalue)">
+				dicvalue = #{dicvalue,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(conditions)">
+				conditions = #{conditions,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(fixvalue)">
+				fixvalue = #{fixvalue,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        		WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!--删除-->
+    <delete id="deleteDdynfield" parameterType="java.lang.String">
+        DELETE FROM D_DYNFIELD WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteDdynfield">
+      DELETE FROM D_DYNFIELD WHERE 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countDdynfield" parameterType="map" resultType="long">
+        SELECT count(*) FROM D_DYNFIELD 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    
+     <!-- 获取动态表的主键 -->
+    <select id="getEntityKeyId" parameterType="java.lang.String"  resultType="Ddynfield">
+    	select ID,EXTID,FIELDNAME,FIELDNAMECN,ORDERNO,FIELDTYPE,FIELDLEN,FIELDWIDTH,ISNULL,ISDISP,ISREPT,ISZERO,ISKEY,DICTABLENAME,DICKEY,DICVALUE,CONDITIONS,FIXVALUE,REMARK 
+    	from d_dynfield 
+    	where iskey = '1' and extid = #{extid,jdbcType=VARCHAR}
+    </select>
+</mapper>
+

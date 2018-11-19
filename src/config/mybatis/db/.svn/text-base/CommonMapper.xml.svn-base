@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.dyntable.dao.CommonMapper">
+
+    <!--  动态查询信息  -->
+    <select id="queryListBySql" parameterType="HashMap" resultType="HashMap" statementType="STATEMENT">
+   		${sql}
+   	</select>
+   	<select id="getIntBySql" parameterType="string" resultType="int" statementType="STATEMENT">
+   			${sql}
+   	</select>
+   	<select id="getDoubleBySql" parameterType="string" resultType="_double" statementType="STATEMENT">
+   			${sql}
+   	</select>
+   	<select id="getStr" parameterType="string" resultType="string" statementType="STATEMENT">
+   			${sql}
+   	</select>
+   	<!-- 组合sql，查询select数据 -->
+   	<select id="queryForSelect" parameterType="string" resultType="SelectBean">
+   			${sql}
+   	</select>
+   	
+   	<!--  动态插入数据  -->
+   	<insert id="insertData" parameterType="string"  statementType="STATEMENT">
+   		${sql}
+   	</insert>
+   	<!--  动态更新数据  -->
+   	<insert id="updateBySql" parameterType="string"  statementType="STATEMENT">
+   		${sql}
+   	</insert>
+   	
+   	<!--  动态删除表中数据  -->
+    <delete id="deleteData" parameterType="string"  statementType="STATEMENT">
+        ${sql}
+    </delete>
+    
+    <!-- 根据城市代码查询主管部门信息 -->
+    <select id="getCompeinfoByCitycode" parameterType="map" resultType="HashMap">
+		SELECT 
+		C.COMPNO,
+		C.SUPERCOMPNO,
+		D_ZONECODE.ZONENAME AS ZONENAME,
+		C.SYSTEMNAME,
+		C.FULLNAME,
+		C.ADDRESS,
+		C.LEADER,
+		C.LINKMAN,
+		C.PHONE,
+		C.EMAIL,
+		C.POSTALCODE,
+		C.WEBSITE,
+		C.REMARK 
+        FROM R_COMPEINFO C 
+        LEFT JOIN D_ZONECODE ON C.CITYCODE=D_ZONECODE.ZONECODE
+		<where>
+			<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(citycode)">
+				AND C.CITYCODE = #{citycode,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+    
+    <!-- 查询字典信息，条件: citycode、dictypeid、dickey 李中新 -->
+    <select id="getDicinfo" parameterType="map" resultType="map">
+		SELECT ID,DICTYPEID,DEPTID,DICKEY,DICVALUE,ORDERNO,STATE,REMARK
+		FROM D_DICCONTENT
+		<where>
+			<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(citycode)">
+				AND DEPTID = #{citycode,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(dictypeid)">
+				AND DICTYPEID = #{dictypeid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(dickey)">
+				AND DICKEY = #{dickey,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	
+    <!-- 查询财务管理员信息，条件: citycode 李中新 -->
+    <select id="getUserinfo" parameterType="string" resultType="SelectBean">
+		select username as key,username as value from rbac_user 
+		where deptid in (
+		select distinct id from rbac_dept where zonecode = #{citycode,jdbcType=VARCHAR}
+		) and state = '1'
+	</select>
+	
+	<!-- 动态查询下拉框数据， 李中新 -->
+    <select id="getSelectData" parameterType="map" resultType="SelectBean">
+		select ${key} as key,${value} as value from ${tablename} 
+	</select>
+	
+	<!-- 查询资产类科目 -->
+	<select id="getAssetsItem" parameterType="map" resultType="SelectBean">
+		SELECT ITEMNO AS VALUE,ITEMNO||'_'||ITEMNAME AS KEY FROM F_ITEM WHERE ITEMTYPE='1' AND ITEMSTATE='1' ORDER BY ITEMNO
+	</select>
+	
+	<!-- 查询132科目 -->
+	<select id="getItemONETHREEETWO" parameterType="map" resultType="SelectBean">
+		SELECT ITEMNO AS VALUE,ITEMNO||'_'||ITEMNAME AS KEY FROM F_ITEM WHERE ITEMTYPE='1' AND ITEMSTATE='1' and itemno like '132%' ORDER BY ITEMNO
+	</select>
+	
+	<!-- 查询401科目 -->
+	<select id="getItemFOURZEROONE" parameterType="map" resultType="SelectBean">
+		SELECT ITEMNO AS VALUE,ITEMNO||'_'||ITEMNAME AS KEY FROM F_ITEM WHERE  itemno like '401%'  AND ITEMSTATE='1' ORDER BY ITEMNO
+	</select>
+	
+	<!-- 查询2070110定期利息科目 -->
+	<select id="getItemAccr" parameterType="map" resultType="SelectBean">
+		SELECT ITEMNO AS VALUE,ITEMNO||'_'||ITEMNAME AS KEY FROM F_ITEM WHERE  itemno like '2070110%' AND ITEMSTATE='1' ORDER BY ITEMNO
+	</select>
+	
+	<!-- 查询银行科目 -->
+	<select id="getBankItem" parameterType="map" resultType="SelectBean">
+		SELECT ITEMNO AS VALUE,ITEMNO||'_'||ITEMNAME AS KEY FROM F_ITEM WHERE ITEMTYPE='1' and itemno like '102%' AND ITEMSTATE='1' ORDER BY ITEMNO
+	</select>
+	
+	<!-- 查询交存模式 -->
+	<select id="queryDepmodeByType" parameterType="map" resultType="map">
+	    SELECT DEPTYPE,DEPNAME,DESCRIPTION,DEPFIELD,YEARFLAG,DEPFORMULA,REMARK FROM D_DEPMODE 
+	    WHERE DEPTYPE = #{deptype,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询业主信息表中的基础字段 -->
+	<select id="queryRpsnaccinfo" parameterType="map" resultType="map">
+	    SELECT ${depfield} from R_PSNACCINFO where ACCNO = #{accno,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询交存模式条件表，查找deptype模式下的交存条件 -->
+	<select id="queryDmononditionByType" parameterType="map" resultType="map">
+	    SELECT ID,DEPTYPE,ORDERNO,CONDESCRIPTION,TABLENAME,ALIASNAME,CONLIST,REMARK FROM D_MONONDITION 
+	    WHERE DEPTYPE = #{deptype,jdbcType=VARCHAR}
+	    ORDER BY ORDERNO ASC
+	</select>
+	
+	<!-- 动态查询交存数据， 李中新 -->
+    <select id="queryDynamic" parameterType="map" resultType="map">
+		select ${fieldname} from ${tablename} where 1=1 
+		<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(accno)">
+			AND accno = #{accno,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(bldno)">
+			AND bldno = #{bldno,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(cellno)">
+			AND cellno = #{cellno,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<!-- 查询交存标准表，李中新 -->
+	<select id="queryDdepstandardByType" parameterType="map" resultType="map">
+	    SELECT ID,CONLISTS,DEPSTANDARD FROM D_DEPSTANDARD 
+	    WHERE conlists LIKE '${deptype}%'
+	</select>
+	<!-- 资金缴存统计-缴存窗口工作量查询-业主缴存统计 -->
+	<select id="pageOperFindMore" parameterType="map" resultType="map">
+	SELECT BUSINO,
+       A.ACCNO,
+       B.NAME AS OWNERNAME,
+       CASE A.STATE
+         WHEN '3' THEN
+          '已打印'
+         WHEN '0' THEN
+          '已交存'
+       END AS STATENAME,
+       REQDATE,
+       a.RECOPER,
+       B.Regionno,
+       (select regionname from r_regioninfo where b.regionno = r_regioninfo.regionno ) as regionname,
+       B.Bldno,
+       (select bldname from r_bldinfo where b.bldno = r_bldinfo.bldno ) as bldname,
+       b.cellno,
+       (case when BASEMENT = '0' then
+       b.floorno when BASEMENT = '1' then b.floorno||'[地下室]' end) as floorno ,
+       b.roomno
+  FROM B_DEPLIST A, R_PSNACCINFO B
+ WHERE A.ACCNO = B.ACCNO ${where}
+	</select>
+	<!-- 资金缴存统计-缴存窗口工作量查询-业务员资金收缴统计 -->
+	<select id="pageOperFind" parameterType="map" resultType="map">
+	SELECT RECOPER,COUNT(1) AS DEPREQCOUNT FROM (SELECT
+	RECOPER,BUSINO,COUNT(1) AS DEPCOUNT FROM B_DEPLIST WHERE STATE
+	IN('0','3')  ${where} GROUP BY RECOPER ,BUSINO) GROUP
+	BY RECOPER
+	</select>
+	<!-- 业主缴存凭证补打信息明细 -->
+	<select id="pagePsnPrintList"  parameterType="map" resultType="map">
+	  SELECT LV.BUSINO,
+       LV.ACCNO,
+       RP.NAME AS NAME,
+       LV.VOUCHNO,
+       LV.PRTDATE,
+       LV.REASON,
+       LV.OPER,
+       LV.PRTFLAG,
+       '0' as HISFLAG
+  	FROM L_VOUPRTLOG LV
+  	LEFT JOIN R_PSNACCINFO RP ON RP.ACCNO = LV.ACCNO
+  	   <if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(where)">
+		  WHERE ${where}
+	   </if>
+	   union 
+		select lv.busino,
+	       lv.accno,
+	       r.name,
+	       lv.hisvouchno as vouchno,
+	       u.hfmpdate as PRTDATE,
+	       '',
+	       '',
+	       '',
+	       '1' as HISFLAG
+	  from b_deplist lv, r_psnaccinfo r, b_busideal u
+	 where lv.accno = r.accno
+	   and u.busino = lv.busino
+	   and lv.HISFLAG = '1'
+	   and lv.hisvouchno is not null
+	   <if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(where)">
+		  and ${where}
+	   </if>
+	</select>
+	<!-- 凭证统计 -->
+	<select id="pagevouStatistic" parameterType="map" resultType="map">
+	  SELECT A.OPER,
+       		 NVL(B.COUNT, 0) AS NOCOUNT,
+       		 A.COUNT AS TOTCOUNT,
+       		(A.COUNT - NVL(B.COUNT, 0)) AS COUNT
+         FROM (SELECT T.OPER, COUNT(T.OPER) AS COUNT
+          			  FROM L_VOUPRTLOG T
+         			  GROUP BY T.OPER) A
+  	  LEFT JOIN (
+  	  		SELECT T.OPER, 
+  	  			   NVL(COUNT(T.OPER), 0) AS COUNT
+               FROM L_VOUPRTLOG T
+              WHERE T.VOUCHNO = '0000000000'
+              GROUP BY T.OPER) B
+    ON A.OPER = B.OPER ORDER BY TOTCOUNT,A.OPER
+	</select>
+	<!-- 每日业务量统计 -->
+	<select id="pagebusiList" parameterType="map" resultType="map">
+	  <if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(margin)">
+	  SELECT TO_CHAR(A1.HFMPTIME, 'YYYY-MM-DD') AS TRDDATE,
+          		'保修金拨付' AS TRDNAME,
+       		COUNT(A1.BUSINO) AS BUSICOUNT,
+       		SUM(A1.AMOUNT) AS TOTALAMOUNT,
+       		SUM(A1.PSNCOUNT) AS PSNCOUNT
+  		FROM (SELECT A.HFMPTIME,
+               		 A.TRDCODE,
+               		 A.BUSINO,
+               		 SUM(A.AMOUNT) AS AMOUNT,
+               		(SELECT COUNT(*)
+                  		FROM A_TRDLOG
+                 		WHERE BUSINO IN
+                       (SELECT BUSINO FROM B_BUSIDEAL WHERE BUSINO IN A.BUSINO)) AS PSNCOUNT
+          		FROM A_HISSPTRDLOG A
+         		WHERE A.HISFLAG = '0'
+          			  AND BUSITYPE = '20'
+           			  AND CODETYPE = '28'
+           			  ${where1}
+         		GROUP BY A.HFMPTIME, A.TRDCODE, A.BUSINO
+         		ORDER BY A.HFMPTIME, A.TRDCODE, A.BUSINO) A1
+ 		GROUP BY A1.HFMPTIME, A1.TRDCODE
+ 	</if>
+ 	<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(all)">
+	UNION ALL (
+	</if>
+	<if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(other)">
+				SELECT TRDDATE,
+                  	  TRDNAME,
+                  	  COUNT(BUSINO) AS BUSICOUNT,
+                  	  SUM(TOTALAMOUNT) AS TOTALAMOUNT,
+                  	  SUM(NUM) AS PSNCOUNT
+             	FROM (SELECT TRDDATE,
+                          (CASE BUSITYPE
+                            WHEN '00' THEN
+                             '资金交存'
+                            WHEN '20' THEN
+                             '资金支用'
+                            WHEN '10' THEN
+                             '资金退款'
+                          END) AS TRDNAME,
+                          BUSINO,
+                          COUNT(*) AS NUM,
+                          SUM(AMOUNT) AS TOTALAMOUNT
+                     FROM A_TRDLOG
+                    WHERE HISFLAG = '0'
+                      AND BUSITYPE IN ('00', '10', '20')
+                      ${where2}
+                    GROUP BY TRDDATE, BUSITYPE, BUSINO)
+            GROUP BY TRDDATE, TRDNAME
+      </if> 
+      <if test="@com.joinsoft.core.utils.collection.Collections@isNotEmpty(all)"> 
+          )
+ 	  </if>
+ 		ORDER BY TRDDATE, TRDNAME
+	</select>
+	<!-- 缴存业务工作量统计显示 -->
+	<select id="pageworkStatisticShow" parameterType="map" resultType="map">
+	  SELECT *
+  FROM (SELECT A.RECOPER,
+               COUNT(A.RECOPER) AS WORKSUM,
+               SUM(A.TOTALAMOUNT) AS SUMMOUNT
+          FROM B_BUSIDEAL A
+         WHERE ${where}
+         GROUP BY A.RECOPER) AA
+ ORDER BY AA.WORKSUM
+	</select>
+	
+	<select id="pageworkStatisticDetail" parameterType="map" resultType="map">
+	  SELECT A.*,
+       (SELECT CI.CORPNAME FROM R_CORPINFO CI WHERE CI.CORPNO = A.CORPNO) CORPNAME
+  	FROM B_BUSIDEAL A
+ 	WHERE (A.HISFLAG IS NULL
+    OR A.HISFLAG = '0')
+    ${where}
+    ORDER BY A.BUSIDATE
+	</select>
+	
+	<!-- 区县缴存量统计显示 -->
+	<select id="DepositStatisticShowByCity" parameterType="map" resultType="map">
+	    SELECT * FROM (SELECT B.ZONENAME, C.ZONECODE, COUNT(A.ACCNO) AS ACCSUM,sum(amount) AS AMOUNT,SUM(D.CONSTRUCTIONAREA) AS AREA
+         FROM B_DEPLIST A
+         LEFT JOIN R_BLDINFO C ON A.BLDNO = C.BLDNO
+         LEFT JOIN D_ZONECODE B ON B.ZONECODE = C.ZONECODE
+         LEFT JOIN R_PSNACCINFO D ON A.ACCNO = D.ACCNO
+         WHERE ${where}
+      GROUP BY B.ZONENAME, C.ZONECODE) ORDER BY ACCSUM
+	</select>
+	<!-- 小区缴存量统计显示 -->
+	<select id="pageDepositStatisticShowByRegion" parameterType="map" resultType="map">
+	   SELECT *
+		  FROM (SELECT A.ACCNO,B.NAME,B.HOUSESITE,A.AMOUNT,A.REGIONNO,
+		               C.REGIONNAME,A.REQDATE,A.CODETYPE,D.MEAN,A.STATE
+		          FROM B_DEPLIST A
+		          LEFT JOIN R_PSNACCINFO B ON A.ACCNO = B.ACCNO
+		          LEFT JOIN R_REGIONINFO C ON C.REGIONNO = A.REGIONNO
+		          LEFT JOIN D_BUSITYPE D ON D.CODETYPE = A.CODETYPE
+		                                AND D.BUSIFLAG = '1')
+       WHERE ${where}
+		 ORDER BY accno,reqdate
+	</select>
+
+</mapper>

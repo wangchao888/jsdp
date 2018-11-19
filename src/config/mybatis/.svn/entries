@@ -1,0 +1,43 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/config/mybatis
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-11-19T01:38:22.214079Z
+1867
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+db
+dir
+
+mybatis-config.xml
+file
+
+
+
+
+2018-09-05T02:33:38.111000Z
+15d0c02882fbcded39594d1b22da285e
+2017-05-08T01:36:48.656250Z
+122
+lzx
+

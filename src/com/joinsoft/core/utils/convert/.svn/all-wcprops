@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert
+END
+DoubleUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert/DoubleUtils.java
+END
+FloatUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert/FloatUtils.java
+END
+BigDecimaUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert/BigDecimaUtils.java
+END
+IntegerUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert/IntegerUtils.java
+END
+CharsetUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/convert/CharsetUtils.java
+END

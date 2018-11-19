@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/dept/entity
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-04-01T07:55:01.656250Z
+1159
+lzx
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+SysOrgArea.java
+file
+
+
+
+
+2018-09-05T02:33:26.158000Z
+eb5c56d5dcec935c9d89fbd9ed9d4523
+2017-06-07T09:11:23.281250Z
+305
+gx
+
+SysRbacOrg.java
+file
+
+
+
+
+2018-09-05T02:33:26.150000Z
+eef430c5eed134b46e71efcab795fbeb
+2018-04-01T07:55:01.656250Z
+1159
+lzx
+

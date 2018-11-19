@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svn7_hfmpmina/!svn/ver/1198/jsdp/src/com/joinsoft/platform/global/service/impl
+END
+SessionWriteService.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/svn7_hfmpmina/!svn/ver/851/jsdp/src/com/joinsoft/platform/global/service/impl/SessionWriteService.java
+END
+GlobalReadService.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/svn7_hfmpmina/!svn/ver/1198/jsdp/src/com/joinsoft/platform/global/service/impl/GlobalReadService.java
+END
+GlobalInitService.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/svn7_hfmpmina/!svn/ver/439/jsdp/src/com/joinsoft/platform/global/service/impl/GlobalInitService.java
+END
+GlobalUpdateService.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/svn7_hfmpmina/!svn/ver/799/jsdp/src/com/joinsoft/platform/global/service/impl/GlobalUpdateService.java
+END
+SessionReadService.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/svn7_hfmpmina/!svn/ver/851/jsdp/src/com/joinsoft/platform/global/service/impl/SessionReadService.java
+END
+SessionRemoveService.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/svn7_hfmpmina/!svn/ver/328/jsdp/src/com/joinsoft/platform/global/service/impl/SessionRemoveService.java
+END
+XmemCacheService.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/svn7_hfmpmina/!svn/ver/193/jsdp/src/com/joinsoft/platform/global/service/impl/XmemCacheService.java
+END
+BaseCacheService.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/svn7_hfmpmina/!svn/ver/142/jsdp/src/com/joinsoft/platform/global/service/impl/BaseCacheService.java
+END
+GlobalWriteService.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/svn7_hfmpmina/!svn/ver/851/jsdp/src/com/joinsoft/platform/global/service/impl/GlobalWriteService.java
+END

@@ -1,0 +1,105 @@
+html, body, div, span, applet, object, iframe, table, caption,
+tbody, tfoot, thead, tr, th, td, del, dfn, em, font, img, ins,
+kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr,
+acronym, address, big, cite, code, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend {
+    vertical-align: baseline;
+    font-family: 'Microsoft Yahei','SimSun';
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+input,
+:focus {
+    outline: 0;
+}
+ol, ul {
+    list-style: none;
+}
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+a {
+    text-decoration: none;
+    color: #000;
+}
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.fleft {
+    float: left;
+}
+.fright {
+    float: right;
+}
+html,body{height:100%;}
+.wrapper{min-height:100%; height:auto !important;width:100%;overflow: hidden;position: relative;}
+.cont{
+	width: 1000px;
+	height: 500px;
+	overflow: hidden;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -500px;
+}
+.contLeft{
+	width:520px;
+}
+.contRight{
+	width:450px;
+	margin-top: 75px;
+}
+h1{
+	color: #4fb4bf;
+	font-weight: bold;
+	font-size: 36px;
+}
+h2{
+	color: #4fb4bf;
+	font-size: 18px;
+	margin-bottom: 30px;
+	margin-top: 5px;
+}
+p{
+	color: #666;
+	line-height: 32px;
+}
+button{
+	width: 185px;
+	height: 55px;
+	border:0;
+	outline: none;
+	background: #4FB4BF;
+	color: #fff;
+	border-radius: 8px;
+	font-size: 24px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 50px;
+}
+.500Page img{
+	margin-top:72px;
+}
+.404Page img{
+	margin-top:40px;
+}
+.403Page img{
+	margin-top:112px;
+}
+.503Page img{
+	margin-top:58px;
+}

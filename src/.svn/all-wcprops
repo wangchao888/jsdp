@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/svn7_hfmpmina/!svn/ver/1868/jsdp/src
+END
+spring-mvc.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/svn7_hfmpmina/!svn/ver/1213/jsdp/src/spring-mvc.xml
+END
+logback.xml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/svn7_hfmpmina/!svn/ver/197/jsdp/src/logback.xml
+END
+fastdfs-client.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/svn7_hfmpmina/!svn/ver/400/jsdp/src/fastdfs-client.conf
+END

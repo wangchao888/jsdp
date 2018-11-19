@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/svn7_hfmpmina/!svn/ver/928/jsdp/src/com/joinsoft/core/utils
+END
+ReflectionUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/ReflectionUtils.java
+END
+MemcachedUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/svn7_hfmpmina/!svn/ver/129/jsdp/src/com/joinsoft/core/utils/MemcachedUtils.java
+END
+StringUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/599/jsdp/src/com/joinsoft/core/utils/StringUtils.java
+END
+EncodesUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/EncodesUtils.java
+END
+UUIDUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/UUIDUtils.java
+END
+MoneyUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/svn7_hfmpmina/!svn/ver/122/jsdp/src/com/joinsoft/core/utils/MoneyUtils.java
+END
+NumberUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/928/jsdp/src/com/joinsoft/core/utils/NumberUtils.java
+END

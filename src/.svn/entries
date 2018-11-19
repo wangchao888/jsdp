@@ -1,0 +1,70 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-11-19T02:37:28.794610Z
+1868
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+com
+dir
+
+config
+dir
+
+fastdfs-client.conf
+file
+
+
+
+
+2018-09-05T02:33:38.272000Z
+e9e19aaec8a9375639deedf2eb4ffedc
+2017-06-22T07:23:37.218750Z
+400
+lzx
+
+logback.xml
+file
+
+
+
+
+2018-09-05T02:33:38.278000Z
+5c71ad55b5a569434adda853184cf071
+2017-05-27T01:01:10.968750Z
+197
+lzx
+
+spring-mvc.xml
+file
+
+
+
+
+2018-09-05T02:33:38.266000Z
+25a093a146eb2ddec4ed436908251607
+2018-04-11T23:44:55.343750Z
+1213
+lzx
+

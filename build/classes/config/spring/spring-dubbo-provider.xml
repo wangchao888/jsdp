@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:provider server="netty4" />
+	<dubbo:application name="jsdp-provider"  />
+	
+	<dubbo:registry address="${dubbo.address}" />
+	
+	<dubbo:protocol name="dubbo" port="${dubbo.port}" />
+	
+	<!-- <bean id="dicService" class="com.joinsoft.dubbo.service.impl.DicService">
+		<property name="globalUpdateService">
+            <ref bean="globalUpdateService"/>
+        </property>
+	</bean> -->
+	<bean id="userService" class="com.joinsoft.dubbo.service.impl.UserService">
+		<property name="sessionReadService">
+            <ref bean="sessionReadService"/>
+        </property>
+		<property name="globalReadService">
+            <ref bean="globalReadService"/>
+        </property>
+	</bean>
+	<!-- 通用类服务 -->
+	<bean id="commonService" class="com.joinsoft.dubbo.service.impl.CommonService">
+		<property name="globalUpdateService">
+            <ref bean="globalUpdateService"/>
+        </property>
+	</bean>
+	
+	<!-- 外部单位用户服务 -->
+	<bean id="corpinfoService" class="com.joinsoft.dubbo.service.impl.CorpinfoService">
+		<property name="rbacService">
+            <ref bean="rbacService"/>
+        </property>
+		<property name="sysRbacOrgMapper">
+            <ref bean="sysRbacOrgMapper"/>
+        </property>
+		<property name="sysRbacUserMapper">
+            <ref bean="sysRbacUserMapper"/>
+        </property>
+		<property name="sysRbacCorproleMapper">
+            <ref bean="sysRbacCorproleMapper"/>
+        </property>
+		<property name="sysUserRoleMapper">
+            <ref bean="sysUserRoleMapper"/>
+        </property>
+		<property name="sysActorMenuMapper">
+            <ref bean="sysActorMenuMapper"/>
+        </property>
+        <property name="sysRbacMenuMapper">
+            <ref bean="sysRbacMenuMapper"/>
+        </property>
+	</bean>
+	
+	<!-- 主管单位接口服务 -->
+	<bean id="orgService" class="com.joinsoft.dubbo.service.impl.OrgService">
+        <property name="sysRbacOrgMapper">
+            <ref bean="sysRbacOrgMapper"/>
+        </property>
+        <property name="sysOrgAreaMapper">
+            <ref bean="sysOrgAreaMapper"/>
+        </property>
+        <property name="globalWriteService">
+            <ref bean="globalWriteService"/>
+        </property>
+    </bean>
+	
+	<!-- <dubbo:service interface="com.joinsoft.dubbo.service.IDicService" ref="dicService" /> -->
+	<dubbo:service interface="com.joinsoft.dubbo.service.IUserService" ref="userService" />
+	<dubbo:service interface="com.joinsoft.dubbo.service.ICommonService" ref="commonService" /> 
+	<dubbo:service interface="com.joinsoft.dubbo.service.ICorpinfoService" ref="corpinfoService" /> 
+	<dubbo:service interface="com.joinsoft.dubbo.service.IOrgService" ref="orgService" /> 
+	
+
+
+</beans>

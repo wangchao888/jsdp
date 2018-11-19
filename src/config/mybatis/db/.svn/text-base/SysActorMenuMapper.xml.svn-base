@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.actormenu.dao.SysActorMenuMapper">
+
+	<!--查询-->
+	<select id="getSysActorMenu" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,actortype,actorid,menuid,remark
+		    FROM SYS_ACTOR_MENU WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+				and actorid = #{actorid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actortype)">
+				and actortype = #{actortype,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysActorMenu" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,actortype,actorid,menuid,remark
+         FROM SYS_ACTOR_MENU 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+            WHERE 1=1 ${where}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysActorMenu" parameterType="SysActorMenu">
+        INSERT INTO SYS_ACTOR_MENU
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actortype)">
+				actortype,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+				actorid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuid)">
+				menuid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actortype)">
+				#{actortype,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+				#{actorid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuid)">
+				#{menuid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysActorMenu" parameterType="SysActorMenu">
+        UPDATE SYS_ACTOR_MENU SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actortype)">
+				actortype = #{actortype,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+				actorid = #{actorid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuid)">
+				menuid = #{menuid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysActorMenu" parameterType="java.lang.String">
+        DELETE FROM SYS_ACTOR_MENU WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    <!--按照角色编号或菜单编号删除-->
+    <delete id="deleteActorOrMenu" parameterType="map">
+        DELETE FROM SYS_ACTOR_MENU WHERE
+         <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+			actorid = #{actorid,jdbcType=VARCHAR}
+		 </if>
+		 <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(menuid)">
+			menuid = #{menuid,jdbcType=VARCHAR}
+		 </if>
+        
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysActorMenu">
+      DELETE FROM SYS_ACTOR_MENU WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysActorMenu" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_ACTOR_MENU 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    <!--查询实体接收-->
+	<select id="getSysActorMenuEntity" parameterType="map" resultType="CacheActorMenu">
+		SELECT 
+			sid,actortype,actorid,menuid
+		    	FROM SYS_ACTOR_MENU 
+		    <where>
+			    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actorid)">
+					actorid = #{actorid,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(actortype)">
+					and actortype = #{actortype,jdbcType=VARCHAR}
+				</if>	
+		    </where>  
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+					ORDER BY ${order}
+			</if> 
+	</select>
+	<delete id="deleteUserActorNotRole" parameterType="java.lang.String">
+		delete from sys_actor_menu where sid in(
+		select sid from (
+		select m.sid,m.menuid from sys_actor_menu m 
+		inner join sys_rbac_user u on u.sid = m.actorid
+		where u.sid in ${userids}
+		) where menuid not in (
+		select MenuId from sys_actor_menu where actorId in ${roleids}
+		)
+		)
+    </delete>
+    
+</mapper>
+

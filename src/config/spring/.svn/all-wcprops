@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/svn7_hfmpmina/!svn/ver/1729/jsdp/src/config/spring
+END
+spring-memcache.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/svn7_hfmpmina/!svn/ver/931/jsdp/src/config/spring/spring-memcache.xml
+END
+spring-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/svn7_hfmpmina/!svn/ver/1200/jsdp/src/config/spring/spring-context.xml
+END
+spring-dubbo-provider.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/1729/jsdp/src/config/spring/spring-dubbo-provider.xml
+END
+spring-xmemcache.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/svn7_hfmpmina/!svn/ver/931/jsdp/src/config/spring/spring-xmemcache.xml
+END
+spring-global.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/svn7_hfmpmina/!svn/ver/931/jsdp/src/config/spring/spring-global.xml
+END
+spring-mybatis.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/svn7_hfmpmina/!svn/ver/1103/jsdp/src/config/spring/spring-mybatis.xml
+END

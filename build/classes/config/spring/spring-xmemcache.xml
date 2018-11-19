@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- xmemcached 配置 -->
+	<bean name="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">
+	  <!-- XMemcachedClientBuilder have two arguments.First is server list,and second is weights array. -->
+	  <constructor-arg>
+	    <list>
+	      <bean class="java.net.InetSocketAddress">
+	        <constructor-arg>
+	          <value>${xmemcached.servers}</value>
+	        </constructor-arg>
+	        <constructor-arg>
+	          <value>${xmemcached.port}</value>
+	        </constructor-arg>
+	      </bean>
+	    </list>
+	  </constructor-arg>
+	  <constructor-arg>
+	    <list>
+	      <value>${xmemcached.weights}</value>
+	    </list>
+	  </constructor-arg>
+	  <!-- 授权验证信息，仅在xmemcached 1.2.5及以上版本有效 -->
+	  <!-- <property name="authInfoMap">
+			<map>
+				<entry key-ref="server1">
+					<bean class="net.rubyeye.xmemcached.auth.AuthInfo"
+						factory-method="typical">
+						<constructor-arg index="0">
+							<value>cacheuser</value>
+						</constructor-arg>
+						<constructor-arg index="1">
+							<value>123456</value>
+						</constructor-arg>
+					</bean>
+				</entry>
+			</map>
+	  </property> -->
+	  <property name="connectionPoolSize" value="1"></property>
+      <property name="commandFactory">
+          <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory"></bean>
+      </property>
+      <property name="sessionLocator">
+        <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"></bean>
+      </property>
+      <property name="transcoder">
+        <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+      </property>
+	</bean>
+	<!-- Use factory bean to build memcached client -->
+    <bean name="memCachedClient" factory-bean="memcachedClientBuilder" factory-method="build" destroy-method="shutdown"/>
+    
+    <!-- <bean id="memCachedClient" class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">  
+        <property name="servers" value="${memcached.servers}">  
+        </property>
+        <property name="weights" value="${memcached.weights}">  
+        </property>
+        <property name="connectionPoolSize" value="5"></property>
+        <property name="commandFactory">
+          <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory"></bean>
+        </property>
+    </bean> -->
+    
+    <bean id="xmemCacheService" class="com.joinsoft.platform.global.service.impl.XmemCacheService">
+       <property name="memCachedClient">
+            <ref bean="memCachedClient"/>
+        </property>
+    </bean>
+    
+    <!-- 全局缓存写入实现 -->
+    <bean id="globalWriteService" class="com.joinsoft.platform.global.service.impl.GlobalWriteService">
+       <property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+       <property name="sysRbacApplicationMapper">
+            <ref bean="sysRbacApplicationMapper"/>
+        </property>
+       <property name="sysRbacOrgMapper">
+            <ref bean="sysRbacOrgMapper"/>
+        </property>
+       <property name="sysRbacRoleMapper">
+            <ref bean="sysRbacRoleMapper"/>
+        </property>
+        <property name="sysRbacUserMapper">
+        	<ref bean="sysRbacUserMapper"/>
+        </property>
+        <property name="sysParamMapper">
+        	<ref bean="sysParamMapper"/>
+        </property>
+        <property name="sysDicTypeMapper">
+        	<ref bean="sysDicTypeMapper"/>
+        </property>
+        <property name="sysDictContentMapper">
+        	<ref bean="sysDictContentMapper"/>
+        </property>
+        <property name="sysOrgAreaMapper">
+        	<ref bean="sysOrgAreaMapper"/>
+        </property>
+        <property name="sysAreaMapper">
+        	<ref bean="sysAreaMapper"/>
+        </property>
+        <property name="dbldtypeMapper">
+        	<ref bean="dbldtypeMapper"/>
+        </property>
+    </bean>
+    <!-- 全局缓存读取实现 -->
+    <bean id="globalReadService" class="com.joinsoft.platform.global.service.impl.GlobalReadService">
+    	<property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+    </bean>
+    <!-- 全局缓存刷新实现，即找不到会在数据库重新查询写入缓存 -->
+    <bean id="globalUpdateService" class="com.joinsoft.platform.global.service.impl.GlobalUpdateService">
+       <property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+       <property name="globalReadService">
+            <ref bean="globalReadService"/>
+        </property>
+       <property name="globalWriteService">
+            <ref bean="globalWriteService"/>
+        </property>
+    </bean>
+    <!-- Session缓存读取实现 -->
+    <bean id="sessionReadService" class="com.joinsoft.platform.global.service.impl.SessionReadService">
+    	<property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+    </bean>
+    <!-- Session缓存写入实现 -->
+    <bean id="sessionWriteService" class="com.joinsoft.platform.global.service.impl.SessionWriteService">
+    	<property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+    </bean>
+    <!-- Session缓存删除实现 -->
+    <bean id="sessionRemoveService" class="com.joinsoft.platform.global.service.impl.SessionRemoveService">
+    	<property name="xmemCacheService">
+            <ref bean="xmemCacheService"/>
+        </property>
+    </bean>
+    
+    <bean id="globalInitService" class="com.joinsoft.platform.global.service.impl.GlobalInitService">
+       <property name="globalWriteService">
+            <ref bean="globalWriteService"/>
+        </property>
+    </bean>
+    
+    
+</beans>

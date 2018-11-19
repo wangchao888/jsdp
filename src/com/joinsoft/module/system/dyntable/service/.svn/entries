@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/dyntable/service
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2017-06-16T07:52:59.421875Z
+379
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+DdyndataService.java
+file
+
+
+
+
+2018-09-05T02:33:28.003000Z
+4f54b9eb28006b1e54c6aac36c83431d
+2017-06-16T07:52:59.421875Z
+379
+scy
+
+DdyntableService.java
+file
+
+
+
+
+2018-09-05T02:33:28.012000Z
+05baf4106f539728b92fddb5b5c8d8cc
+2017-06-13T01:12:27.593750Z
+331
+scy
+

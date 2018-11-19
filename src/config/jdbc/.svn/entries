@@ -1,0 +1,40 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/config/jdbc
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-08-10T05:11:56.335641Z
+1572
+tyr
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+jdbc.properties
+file
+
+
+
+
+2018-09-05T02:33:38.196000Z
+6c1543f3d3c4307cbd73d5c0c714662b
+2018-08-10T05:11:56.335641Z
+1572
+tyr
+

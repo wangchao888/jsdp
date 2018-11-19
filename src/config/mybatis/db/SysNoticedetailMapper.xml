@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.notice.dao.SysNoticedetailMapper">
+
+	<!--查询-->
+	<select id="getSysNoticedetail" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       ail.sid,ail.noticeid,ail.userid,ail.viewflag,ail.viewtime,ail.remark,ail.corptype,
+		       ruser.username
+		    FROM SYS_NOTICEDETAIL ail 
+		    inner join sys_rbac_user ruser  on ruser.sid = ail.userid
+		    <where>
+		    	<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(noticeid)">
+					ail.noticeid =  #{noticeid,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+					and ail.sid =  #{sid,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+					and ail.userid =  #{userid,jdbcType=VARCHAR}
+				</if>
+		    </where>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysNoticedetail" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          AIL.sid,AIL.noticeid,AIL.userid,AIL.viewflag,AIL.viewtime,AIL.remark,AIL.corptype,
+		          ruser.username,org.orgname
+         FROM SYS_NOTICEDETAIL AIL
+         inner join sys_rbac_user ruser on ruser.sid = ail.userId
+		 inner join sys_rbac_org org on org.sid = ruser.orgid 
+		 <where>
+		 	   AIL.noticeid = #{noticeid,jdbcType=VARCHAR}
+		 	   <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(username)">
+		           and ruser.username like '%'||#{username,jdbcType=VARCHAR}||'%'
+		       </if>
+		       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewflag)">
+		           and AIL.viewflag like '%'||#{viewflag,jdbcType=VARCHAR}||'%'
+		       </if>
+		 </where>
+        
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysNoticedetail" parameterType="SysNoticedetail">
+        INSERT INTO SYS_NOTICEDETAIL
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(noticeid)">
+				noticeid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewflag)">
+				viewflag,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewtime)">
+				viewtime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corptype)">
+				corptype,
+			</if>
+			
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(noticeid)">
+				#{noticeid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewflag)">
+				#{viewflag,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewtime)">
+				#{viewtime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corptype)">
+				#{corptype,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysNoticedetail" parameterType="SysNoticedetail">
+        UPDATE SYS_NOTICEDETAIL SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid = #{sid,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewflag)">
+				viewflag = #{viewflag,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(viewtime)">
+				viewtime = #{viewtime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corptype)">
+				corptype = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+			<where>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(noticeid)">
+					noticeid = #{noticeid,jdbcType=VARCHAR} 
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+					and userid = #{userid,jdbcType=VARCHAR} 
+				</if>
+			</where>
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysNoticedetail" parameterType="java.lang.String">
+        DELETE FROM SYS_NOTICEDETAIL WHERE
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysNoticedetail" parameterType="map">
+      DELETE FROM SYS_NOTICEDETAIL WHERE 
+      noticeId in (select sid from sys_noticeInfo where sid = #{noticeid,jdbcType=VARCHAR} )
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysNoticedetail" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_NOTICEDETAIL 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    <insert id="insertAll" parameterType="map">
+        insert into SYS_NOTICEDETAIL (sid, noticeid, viewflag, corptype,userid)
+				        select sys_guid(),
+				        #{noticeid,jdbcType=VARCHAR},
+        				#{viewflag,jdbcType=VARCHAR},
+        				aa.corptype,
+        				 aa.userid from (SELECT distinct ruser.sid as userid ,org.corptype
+  FROM sys_rbac_org org
+  inner join SYS_RBAC_USER ruser on ruser.orgid = org.sid
+  where org.delflag = '0' and ruser.delflag = '0' 
+   		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(usertype)">
+				and usertype =  #{usertype,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(corptype)">
+				and corptype in ${corptype}
+		</if>
+				START WITH    org.orgno = #{orgno,jdbcType=VARCHAR}
+  CONNECT BY PRIOR org.SID=org.PID) aa
+    </insert>
+    
+    
+    <!--查询已选择的企业类型 去重-->
+	<select id="getDistin" parameterType="map" resultType="java.util.HashMap">
+		select distinct ail.corptype ,ent.dictValue
+		from sys_noticeDetail ail
+		inner join sys_dict_content ent on ent.dictLabel = ail.corptype 
+		where noticeId = #{noticeid,jdbcType=VARCHAR}
+		and ent.dictNo = '75'
+		and ent.state='1'
+	</select>
+    
+    
+    
+    
+    
+</mapper>
+

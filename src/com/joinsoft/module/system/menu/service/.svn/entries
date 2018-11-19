@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/menu/service
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-10-23T02:25:22.743080Z
+1813
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+SysRbacMenuService.java
+file
+
+
+
+
+2018-09-05T02:33:22.965000Z
+c777bcd0a148e33f0906a666528eac73
+2018-08-11T08:49:05.233358Z
+1576
+scy
+
+SysUserShortcutService.java
+file
+
+
+
+
+2018-10-23T05:24:52.575000Z
+ede69b0636cf7f8593a7612940bf857d
+2018-10-23T02:25:22.743080Z
+1813
+scy
+

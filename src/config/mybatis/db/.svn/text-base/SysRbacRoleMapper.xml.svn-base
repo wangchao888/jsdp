@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.role.dao.SysRbacRoleMapper">
+
+	<!--查询-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheRbacRole">
+		SELECT 
+		       sid,rolename 
+		    FROM SYS_RBAC_ROLE WHERE 1=1		    
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid =  #{sid,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delflag =  #{delflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	<!--查询-->
+	<select id="getSysRbacRole" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,rolename,zonecode,roledesc,createBy,createTime,updateBy,updateTime,remark,delflag,orgno
+		    FROM SYS_RBAC_ROLE 
+		    <where>
+		    	 <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(notsid)">
+				    sid !=  #{notsid,jdbcType=VARCHAR}
+				</if>	    
+			    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+					and sid =  #{sid,jdbcType=VARCHAR}
+				</if>
+				 <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rolename)">
+					and rolename =  #{rolename,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+					and delflag =  #{delflag,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+					and orgno =  #{orgno,jdbcType=VARCHAR}
+				</if>
+				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(notsidIn)">
+					and sid not in (${notsidIn})  
+				</if>
+		    </where>	
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	
+	<!-- 通过roleids查找角色信息 -->
+	<select id="getEntityByListByRoleids" resultType="java.util.HashMap">
+	    SELECT 
+		       sid,
+		       rolename,
+		       zonecode,
+		       roledesc,
+		       createBy,
+		       createTime,
+		       updateBy,
+		       updateTime,
+		       remark,
+		       delflag
+		    FROM SYS_RBAC_ROLE 
+		    WHERE sid in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}        
+        </foreach>
+	</select>
+	
+	<!-- 查询用户已存在的角色 -->
+	<select id="getSysRbacRoleusery" parameterType="map" resultType="java.util.HashMap">
+		SELECT RBAC_ROLE.sid,RBAC_ROLE.rolename,RBAC_ROLE.zonecode,RBAC_ROLE.roledesc,RBAC_ROLE.createBy,RBAC_ROLE.createTime,RBAC_ROLE.updateBy,RBAC_ROLE.updateTime,RBAC_ROLE.remark,RBAC_ROLE.delFlag 			
+  			FROM SYS_RBAC_ROLE RBAC_ROLE  			
+  			right JOIN SYS_USER_ROLE USER_ROLE  			
+  			ON RBAC_ROLE.Sid = USER_ROLE.roleid
+  			<where>
+  				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+					 RBAC_ROLE.delFlag  = #{delflag,jdbcType=VARCHAR}
+				</if>
+  				<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(USER_ROLEuserid)">
+					and USER_ROLE.userid = #{USER_ROLEuserid,jdbcType=VARCHAR}
+				</if>
+  			</where>
+		    
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	<!-- 查询用户不存在的角色 -->
+	<select id="getSysRbacRoleusern" parameterType="map" resultType="java.util.HashMap">
+		select sid,rolename,zonecode,roledesc,createBy,createTime,updateBy,updateTime,remark,delFlag
+  			from SYS_RBAC_ROLE
+ 			where sid not in
+       		(select roleid from sys_user_role where userid = ${userid})
+       		and delFlag = #{delflag,jdbcType=VARCHAR}
+       		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				and orgno = #{orgno,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysRbacRole" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          ole.sid,ole.rolename,ole.zonecode,ole.roledesc,ole.createBy,ole.createTime,ole.updateBy,ole.updateTime,ole.remark,ole.delFlag,
+		         (CASE WHEN ole.delFlag = '0' THEN '正常' ELSE '已删除' END) AS delFlagS,
+		         org.orgName as orgname
+         FROM SYS_RBAC_ROLE ole
+         inner join sys_rbac_org org on org.orgno = ole.orgno
+         where org.orgflag = '1'
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+             and ole.delflag = #{delflag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+             and ole.orgno = #{orgno,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rolename)">
+             and ole.rolename like '%'||#{rolename,jdbcType=VARCHAR}||'%'
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysRbacRole" parameterType="SysRbacRole">
+        INSERT INTO SYS_RBAC_ROLE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rolename)">
+				rolename,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roledesc)">
+				roledesc,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delFlag,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				orgno,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rolename)">
+				#{rolename,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				#{zonecode,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roledesc)">
+				#{roledesc,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(orgno)">
+				#{orgno,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacRole" parameterType="SysRbacRole">
+        UPDATE SYS_RBAC_ROLE SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(rolename)">
+				rolename = #{rolename,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(zonecode)">
+				zonecode = #{zonecode,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roledesc)">
+				roledesc = #{roledesc,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy = #{createBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime = #{createTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy = #{updateBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime = #{updateTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delFlag = #{delFlag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysRbacRole" parameterType="map">
+        DELETE FROM SYS_RBAC_ROLE 
+        WHERE 1=1
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(id)">
+				and sid =  #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				and userid =  #{userid,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleid)">
+				and roleid =  #{roleid,jdbcType=VARCHAR}
+		</if>
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacRole">
+      DELETE FROM SYS_RBAC_ROLE WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacRole" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_ROLE 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    <!--查询-->
+	<select id="getAutocomplete" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       rolename as label, rolename as value
+		    FROM SYS_RBAC_ROLE
+				where delflag =  '0'
+				and rolename like '%'||#{rolename,jdbcType=VARCHAR}||'%'
+			
+	</select>
+</mapper>
+

@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/svn7_hfmpmina/!svn/ver/1867/jsdp/src/config/mybatis/db
+END
+SysNoticedetailMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/1576/jsdp/src/config/mybatis/db/SysNoticedetailMapper.xml
+END
+SysRbacUserMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/src/config/mybatis/db/SysRbacUserMapper.xml
+END
+BasedynMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/svn7_hfmpmina/!svn/ver/193/jsdp/src/config/mybatis/db/BasedynMapper.xml
+END
+SysOrgAreaMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/373/jsdp/src/config/mybatis/db/SysOrgAreaMapper.xml
+END
+DdynfieldMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/svn7_hfmpmina/!svn/ver/331/jsdp/src/config/mybatis/db/DdynfieldMapper.xml
+END
+DbldtypeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/svn7_hfmpmina/!svn/ver/433/jsdp/src/config/mybatis/db/DbldtypeMapper.xml
+END
+SysNoticeinfoMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svn7_hfmpmina/!svn/ver/1867/jsdp/src/config/mybatis/db/SysNoticeinfoMapper.xml
+END
+SysParamMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/svn7_hfmpmina/!svn/ver/317/jsdp/src/config/mybatis/db/SysParamMapper.xml
+END
+DdyntableMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/svn7_hfmpmina/!svn/ver/331/jsdp/src/config/mybatis/db/DdyntableMapper.xml
+END
+SysRbacMenuMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/1801/jsdp/src/config/mybatis/db/SysRbacMenuMapper.xml
+END
+SysUserShortcutMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/1837/jsdp/src/config/mybatis/db/SysUserShortcutMapper.xml
+END
+SysAreaMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/svn7_hfmpmina/!svn/ver/427/jsdp/src/config/mybatis/db/SysAreaMapper.xml
+END
+SysRbacOrgMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/svn7_hfmpmina/!svn/ver/1690/jsdp/src/config/mybatis/db/SysRbacOrgMapper.xml
+END
+SysInfoMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/svn7_hfmpmina/!svn/ver/1150/jsdp/src/config/mybatis/db/SysInfoMapper.xml
+END
+SysRbacCorproleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/src/config/mybatis/db/SysRbacCorproleMapper.xml
+END
+SysActorMenuMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/src/config/mybatis/db/SysActorMenuMapper.xml
+END
+SysUserRoleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/1866/jsdp/src/config/mybatis/db/SysUserRoleMapper.xml
+END
+SysRbacUserlogMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/svn7_hfmpmina/!svn/ver/1327/jsdp/src/config/mybatis/db/SysRbacUserlogMapper.xml
+END
+SysDictContentMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/svn7_hfmpmina/!svn/ver/1576/jsdp/src/config/mybatis/db/SysDictContentMapper.xml
+END
+CommonMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/svn7_hfmpmina/!svn/ver/331/jsdp/src/config/mybatis/db/CommonMapper.xml
+END
+DzoneCodeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/1576/jsdp/src/config/mybatis/db/DzoneCodeMapper.xml
+END
+SysDicTypeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/svn7_hfmpmina/!svn/ver/392/jsdp/src/config/mybatis/db/SysDicTypeMapper.xml
+END
+SysRbacApplicationMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/svn7_hfmpmina/!svn/ver/1791/jsdp/src/config/mybatis/db/SysRbacApplicationMapper.xml
+END
+SysRbacRoleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn7_hfmpmina/!svn/ver/1186/jsdp/src/config/mybatis/db/SysRbacRoleMapper.xml
+END

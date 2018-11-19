@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/webapp/WEB-INF
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-11-16T09:09:26.751833Z
+1866
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+lib
+dir
+
+tag
+dir
+
+tags
+dir
+
+views
+dir
+
+web.xml
+file
+
+
+
+
+2018-09-05T02:33:02.438000Z
+df458a7035e5a4c38b85ca2e09ced4cc
+2018-08-31T05:54:49.240728Z
+1718
+tyr
+

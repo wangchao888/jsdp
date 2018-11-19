@@ -1,0 +1,79 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/dubbo/service
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-09-04T09:58:21.198155Z
+1730
+cxh
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+ICommonService.java
+file
+
+
+
+
+2018-09-05T02:33:19.273000Z
+8b888713ebaf671889c3cc4e6c444d23
+2017-12-18T00:17:03.421875Z
+798
+lzx
+
+ICorpinfoService.java
+file
+
+
+
+
+2018-09-05T02:33:19.114000Z
+be82f1d44179984e6eba5b17b8d40e96
+2018-09-04T09:58:21.198155Z
+1730
+cxh
+
+IOrgService.java
+file
+
+
+
+
+2018-09-05T02:33:19.266000Z
+b3324a0b8db0db0d431dd22cea2bef8c
+2018-03-19T01:17:00.859375Z
+1090
+lzx
+
+IUserService.java
+file
+
+
+
+
+2018-09-05T02:33:19.121000Z
+98ca92bd185c929c79489cc907b4c761
+2018-09-04T09:58:21.198155Z
+1730
+cxh
+
+impl
+dir
+

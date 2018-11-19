@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.userrole.dao.SysUserRoleMapper">
+
+	<!--查询-->
+	<select id="getSysUserRole" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,userId,roleId,remark
+		    FROM SYS_USER_ROLE WHERE 1=1
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				 and userid = #{userid,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysUserRole" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,userId,roleId,remark
+         FROM SYS_USER_ROLE 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+            WHERE 1=1 ${where}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysUserRole" parameterType="SysUserRole">
+        INSERT INTO SYS_USER_ROLE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userId)">
+				userId,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleId)">
+				roleId,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userId)">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleId)">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysUserRole" parameterType="SysUserRole">
+        UPDATE SYS_USER_ROLE SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userId)">
+				userId = #{userId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleId)">
+				roleId = #{roleId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+	<!--删除-->
+    <delete id="deleteSysUserRole" parameterType="map">
+        DELETE FROM SYS_USER_ROLE
+		WHERE 1=1
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+			and sid = #{sid,jdbcType=VARCHAR} ,
+			</if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+			and userid = #{userid,jdbcType=VARCHAR} 
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleid)">
+			and roleid = #{roleid,jdbcType=VARCHAR} 
+		</if>
+    </delete>
+   
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysUserRole">
+      DELETE FROM SYS_USER_ROLE WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+	<!--总数-->
+    <select id="countSysUserRole" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_USER_ROLE 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    
+    <!--按照用户或者角色删除-->
+    <delete id="deleteSysUserOrRole" parameterType="map">
+        DELETE FROM SYS_USER_ROLE WHERE
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(userid)">
+				userid = #{userid,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(roleid)">
+				roleid = #{roleid,jdbcType=VARCHAR}
+		</if>
+    </delete>
+    <delete id="batchDeleteUser">
+      DELETE FROM SYS_USER_ROLE WHERE 
+        userid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    
+    <delete id="batchDeleteUserAndRole" parameterType="map">
+    delete FROM SYS_USER_ROLE WHERE sid in (
+    select sid from (
+	select * from SYS_USER_ROLE where userid in ${userid}
+	) where roleid =  #{roleid,jdbcType=VARCHAR}
+	)
+    </delete>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>
+

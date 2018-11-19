@@ -1,0 +1,49 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/core/persistence
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2017-06-19T01:42:05.765625Z
+383
+lzx
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+Page.java
+file
+
+
+
+
+2018-09-05T02:33:21.378000Z
+1d00a55b4170cbf1977c9dbcc78c90ce
+2017-06-19T01:42:05.765625Z
+383
+lzx
+
+annotation
+dir
+
+dialect
+dir
+
+interceptor
+dir
+

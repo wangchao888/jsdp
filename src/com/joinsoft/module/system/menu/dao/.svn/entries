@@ -1,0 +1,52 @@
+8
+
+dir
+1868
+http://192.168.0.20:8888/svn/svn7_hfmpmina/jsdp/src/com/joinsoft/module/system/menu/dao
+http://192.168.0.20:8888/svn/svn7_hfmpmina
+
+
+
+2018-10-22T09:22:10.354610Z
+1810
+scy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+fd084ff7-64d4-0a49-bab9-a3da6b39acdc
+
+SysRbacMenuMapper.java
+file
+
+
+
+
+2018-09-05T02:33:23.056000Z
+118f227cda69ab6b59ab343704e409b2
+2017-09-27T05:17:13.640625Z
+596
+scy
+
+SysUserShortcutMapper.java
+file
+
+
+
+
+2018-10-22T09:34:14.287000Z
+5fd785d76a4f9d7ed14cbea649955a0a
+2018-10-22T09:22:10.354610Z
+1810
+scy
+

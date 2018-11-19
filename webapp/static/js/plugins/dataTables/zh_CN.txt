@@ -1,0 +1,24 @@
+{
+    "decimal":        "",
+    "emptyTable":     "没有记录",
+    "info":           "显示 _START_ 到 _END_ 条，共 _TOTAL_ 条",
+    "infoEmpty":      "显示 0 到 0， 共 0 条",
+    "infoFiltered":   "(过滤 _MAX_ 条)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "_MENU_ ",
+    "loadingRecords": "加载中...",
+    "processing":     "处理中...",
+    "search":         "搜索:",
+    "zeroRecords":    "没有匹配的结果",
+    "paginate": {
+        "first":      "首页",
+        "last":       "尾页",
+        "next":       "下页",
+        "previous":   "上页"
+    },
+    "aria": {
+        "sortAscending":  ": 升序排列",
+        "sortDescending": ": 降序排列"
+    }
+}

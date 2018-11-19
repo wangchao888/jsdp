@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.joinsoft.module.system.application.dao.SysRbacApplicationMapper">
+
+	<!--查询对象集合-->
+	<select id="queryListByCache" parameterType="map" resultType="CacheRbacApplication">
+		SELECT 
+		       sid,appname,appdesc,appip,appport,domain,webview,appflag  
+		    FROM SYS_RBAC_APPLICATION
+		WHERE 1=1 
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				and delFlag = #{delFlag,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appip)">
+				and appip = #{appip,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(webview)">
+				and webview = #{webview,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appflag)">
+				and appflag = #{appflag,jdbcType=VARCHAR}
+			</if>
+
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+	<!--查询-->
+	<select id="getSysRbacApplication" parameterType="map" resultType="java.util.HashMap">
+		SELECT 
+		       sid,appname,appdesc,appip,appport,domain,webview,createBy,createTime,updateBy,updateTime,remark,delFlag,appflag 
+		    FROM SYS_RBAC_APPLICATION
+		WHERE 1=1 
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(notsid)">
+				and sid != #{notsid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delflag)">
+				and delFlag = #{delflag,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				and sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appip)">
+				and appip = #{appip,jdbcType=VARCHAR}
+			</if>
+		    <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(webview)">
+				and webview = #{webview,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appname)">
+				and appname = #{appname,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appflag)">
+				and appflag = #{appflag,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appdesc)">
+				and appdesc = #{appdesc,jdbcType=VARCHAR}
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+				ORDER BY ${order}
+			</if>
+	</select>
+
+	<!--分页-->
+	<select id="pageSysRbacApplication" parameterType="map"  resultType="java.util.HashMap">
+        SELECT 
+		          sid,appname,appdesc,appip,appport,domain,webview,createBy,createTime,updateBy,updateTime,remark,delFlag,appflag 
+         FROM SYS_RBAC_APPLICATION 
+        WHERE 1=1 
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appname)">
+             and appname like '%${appname}%'
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+             and delFlag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(order)">
+            ORDER BY ${order}
+        </if>
+    </select>
+
+	<!--列插入-->
+	<insert id="insertSysRbacApplication" parameterType="SysRbacApplication">
+        INSERT INTO SYS_RBAC_APPLICATION
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				sid,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appname)">
+				appname,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appdesc)">
+				appdesc,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appip)">
+				appip,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appport)">
+				appport,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(domain)">
+				domain,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(webview)">
+				webview,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delFlag,
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appflag)">
+				appflag,
+			</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(sid)">
+				#{sid,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appname)">
+				#{appname,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appdesc)">
+				#{appdesc,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appip)">
+				#{appip,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appport)">
+				#{appport,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(domain)">
+				#{domain,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(webview)">
+				#{webview,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+	       <if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appflag)">
+				#{appflag,jdbcType=VARCHAR},
+			</if>
+        </trim>
+    </insert>
+    
+	<!--动态更新-->
+	<update id="updateSysRbacApplication" parameterType="SysRbacApplication">
+        UPDATE SYS_RBAC_APPLICATION SET
+			<trim suffixOverrides="," >
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appname)">
+				appname = #{appname,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appdesc)">
+				appdesc = #{appdesc,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appip)">
+				appip = #{appip,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appport)">
+				appport = #{appport,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(domain)">
+				domain = #{domain,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(webview)">
+				webview = #{webview,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createBy)">
+				createBy = #{createBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(createTime)">
+				createTime = #{createTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateBy)">
+				updateBy = #{updateBy,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(updateTime)">
+				updateTime = #{updateTime,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(remark)">
+				remark = #{remark,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(delFlag)">
+				delFlag = #{delFlag,jdbcType=VARCHAR} ,
+			</if>
+			<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(appflag)">
+				appflag = #{appflag,jdbcType=VARCHAR} 
+			</if>
+			</trim>
+        WHERE 
+	        sid = #{sid,jdbcType=VARCHAR} 
+	</update>
+
+    <!--删除-->
+    <delete id="deleteSysRbacApplication" parameterType="java.lang.String">
+        DELETE FROM SYS_RBAC_APPLICATION WHERE
+        sid = #{id,jdbcType=VARCHAR} 
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchdeleteSysRbacApplication">
+      DELETE FROM SYS_RBAC_APPLICATION WHERE 
+        sid in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}        </foreach>
+    </delete>
+    	
+	<!--总数-->
+    <select id="countSysRbacApplication" parameterType="map" resultType="long">
+        SELECT count(*) FROM SYS_RBAC_APPLICATION 
+		<if test="@com.joinsoft.core.collection.CollectionUtils@isNotEmpty(where)">
+				WHERE ${where}
+		</if>
+    </select>
+    
+</mapper>
+
